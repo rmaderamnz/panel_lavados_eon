@@ -24,6 +24,12 @@ app.config(['$stateProvider','$urlRouterProvider', '$locationProvider', function
             templateUrl : 'webroot/admin_paquetes/paquetes.html',
             resolve     :{}
         })
+        .state('usuarios',{
+            url         : '/paquetes',
+            controller  : 'PaquetesController as vm',
+            templateUrl : 'webroot/admin_paquetes/paquetes.html',
+            resolve     :{}
+        })
 }]);
 
 angular.element(document).ready(function() {

@@ -16,11 +16,11 @@
             <md-table-data>
                 <md-table-row ng-repeat="paquete in vm.paquetes">
                     <md-table-cell class="short-column" style="width: 60px;">{{$index + 1 }}</md-table-cell>
-                    <md-table-cell>{{servicio.nombre}}</md-table-cell>
+                    <md-table-cell>{{paquete.nombre}}</md-table-cell>
                     <md-table-cell>
-                        
+                        <span ng-repeat="servicio in paquete.servicios">{{servicio.nombre}}, </span>
                     </md-table-cell>
-                    <md-table-cell class="short-column">{{servicio.precio}}</md-table-cell>
+                    <md-table-cell class="short-column">$ {{paquete.precio}}</md-table-cell>
                     <md-table-cell class="short-column">
                         <md-button class="md-icon-button" aria-label="Editar" ng-click="vm.modal_servicio($event, servicio)">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

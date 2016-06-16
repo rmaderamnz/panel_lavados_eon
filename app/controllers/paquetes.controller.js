@@ -7,7 +7,6 @@ var bodyParser  = require('body-parser');
 exports.create = function(req, res) {
     var param = req.body.conditions;
     var paquete = new Paquete();
-    console.log(param);
     if(param['_id'] != undefined){
         paquete['_id'] = param['_id'];
         paquete.isNew = false;
