@@ -66,7 +66,6 @@ angular.module('panel').controller('ServiciosController',['$http','$scope','$mdD
     }
     
     vm.borrar_servicio = function(ev, servicio){
-        servicio.activo = !servicio.activo;
         var confirm = $mdDialog.confirm();
             confirm.title('Borrar servicio');
             confirm.textContent('¿Esta seguro que desea borrar el servicio?, Esta accion es permanente');

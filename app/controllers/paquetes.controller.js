@@ -3,17 +3,17 @@ var mongoose = require('mongoose');
 var Paquete = mongoose.model('Paquete');
 var bodyParser  = require('body-parser');
 
-
 exports.create = function(req, res) {
     var param = req.body.conditions;
     var paquete = new Paquete();
     if(param['_id'] != undefined){
         paquete['_id'] = param['_id'];
         paquete.isNew = false;
+        paquete.set('versionKey', false);  
     }
     paquete.nombre = param.nombre;
-    paquete.precio = param.precio;
     paquete.servicios = param.servicios;
+    paquete.precio = param.precio;
     paquete.createdBy = 'Admin';
     paquete.modifiedBy = 'Admin';
     paquete.save(function(err) {
@@ -30,3 +30,15 @@ exports.read = function(req, res){
         res.json({ success: true, items : result });  
     })
 }
+
+exports.delete = function(req, res){
+    var param = req.body.conditions;
+    var id = param.id;
+    Paquete.findOneAndRemove({ _id : id }, function (err, response){
+        if(err){
+            res.send(err);
+        }else{
+            res.json({ success: true });  
+        }
+    })
+} 

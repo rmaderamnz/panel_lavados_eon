@@ -6,8 +6,7 @@ var bodyParser  = require('body-parser');
 exports.create = function(req, res) {
     var param = req.body.conditions;
     var servicio = new Servicio();
-    console.log(param);
-    if(param['_id'] != undefined){
+    if(param['_id'] != undefined){ 
         servicio['_id'] = param['_id'];
         servicio.isNew = false;
     }

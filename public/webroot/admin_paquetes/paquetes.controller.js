@@ -17,8 +17,22 @@ angular.module('panel').controller('PaquetesController',['$http','$mdDialog', fu
                 $scope.costo = 0;
                 $scope.paquete = {};
                 
+                if(data != undefined){
+                    $scope.paquete = data;
+                }
+                
                 $http.post('/servicios/get_active', {} ).success(function(response) {
                     $scope.servicios = response.items;
+                    $scope.costo = 0;
+                    for(var k in $scope.servicios){
+                        for(var y in $scope.paquete.servicios){
+                            if($scope.paquete.servicios[y].id == $scope.servicios[k]['_id']){
+                                $scope.costo += $scope.servicios[k].precio;
+                                $scope.servicios[k].paquete = true;
+                                break;
+                            }
+                        }
+                    } 
                 });
                 
                 $scope.toggle_servicio = function(){
@@ -34,7 +48,6 @@ angular.module('panel').controller('PaquetesController',['$http','$mdDialog', fu
                             });
                         }   
                     }
-                    console.log($scope.paquete);
                 }
                 
                 $scope.nuevo_paquete = function(){
@@ -54,6 +67,24 @@ angular.module('panel').controller('PaquetesController',['$http','$mdDialog', fu
         }, function() {
             vm.lista_paquetes();
         }); 
+    }
+    
+    vm.borrar_paquete = function(ev, paquete){
+        var confirm = $mdDialog.confirm();
+            confirm.title('Borrar servicio');
+            confirm.textContent('¿Esta seguro que desea borrar el paquete?, Esta acción es permanente');
+            confirm.ok('Aceptar');
+            confirm.cancel('Cancelar');
+            confirm.targetEvent(ev);
+            confirm.clickOutsideToClose(true);
+        $mdDialog.show(confirm).then(function() {
+            $http.post('/paquetes/delete', {conditions : {id : paquete['_id']}} ).success(function(response) {
+                console.log(response);
+                vm.lista_paquetes();
+            });
+        }, function() {
+            //Cancel
+        });
     }
     
 }]);

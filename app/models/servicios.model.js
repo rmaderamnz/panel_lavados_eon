@@ -12,4 +12,4 @@ var servicio_schema = new Schema({
   activo               :   {type: Boolean, default: true},
 })
 
-mongoose.model('Servicio', servicio_schema); 
+mongoose.model('Servicio', servicio_schema);
