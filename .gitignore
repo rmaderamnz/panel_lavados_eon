@@ -1,0 +1,5 @@
+# User specific & automatically generated files #
+#################################################
+/config/config.js
+/public/webroot/bower_components
+/node_modules
