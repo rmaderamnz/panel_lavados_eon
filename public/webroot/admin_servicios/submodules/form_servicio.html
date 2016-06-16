@@ -1,0 +1,34 @@
+<md-dialog>
+    <md-dialog-content>
+        <md-content>
+            <md-input-container class="md-block">
+                <label>Nombre</label>
+                <input ng-model="servicio.nombre" type="text">
+            </md-input-container>
+            <md-input-container class=" md-block">
+                <label>Descripcion</label>
+                <input ng-model="servicio.descripcion" type="text">
+            </md-input-container>
+            <md-input-container class="md-icon-float md-block">
+                <label>Costo</label>
+                <input ng-model="servicio.precio" type="number">
+            </md-input-container>
+        </md-content> 
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button class="md-raised md-warn" ng-click="cerrar()">Cancelar</md-button>
+        <md-button class="md-raised" ng-click="nuevo_servicio()">Crear</md-button>
+    </md-dialog-actions>
+</md-dialog>
+
+<style>
+    md-dialog > md-dialog-content {
+        width: 640px;
+/*        height: 480px;*/
+    }
+    
+    md-dialog > md-dialog-content > md-content {
+        padding: 16px;
+    }
+
+</style>

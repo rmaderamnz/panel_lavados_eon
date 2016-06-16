@@ -1,0 +1,77 @@
+<md-content id="pack-view" ng-init="vm.lista_paquetes()">
+    <div class="whiteframe" md-whiteframe="3">
+        <div class="title-header">
+            <h1>Administrador de paquetes</h1>
+        </div>
+        <md-table>
+            <md-table-head>
+                <md-table-row class="header">
+                    <md-table-cell class="short-column" style="width: 60px;">#</md-table-cell>
+                    <md-table-cell>Nombre</md-table-cell>
+                    <md-table-cell>Servicios</md-table-cell>
+                    <md-table-cell class="short-column">Precio</md-table-cell>
+                    <md-table-cell class="short-column">Opciones</md-table-cell>
+                </md-table-row>
+            </md-table-head>
+            <md-table-data>
+                <md-table-row ng-repeat="paquete in vm.paquetes">
+                    <md-table-cell class="short-column" style="width: 60px;">{{$index + 1 }}</md-table-cell>
+                    <md-table-cell>{{servicio.nombre}}</md-table-cell>
+                    <md-table-cell>
+                        
+                    </md-table-cell>
+                    <md-table-cell class="short-column">{{servicio.precio}}</md-table-cell>
+                    <md-table-cell class="short-column">
+                        <md-button class="md-icon-button" aria-label="Editar" ng-click="vm.modal_servicio($event, servicio)">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </md-button>
+                        <md-button class="md-icon-button" aria-label="Borrar" ng-click="vm.borrar_servicio($event, servicio)">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        </md-button>
+                    </md-table-cell>
+                </md-table-row>
+            </md-table-data>
+        </md-table>
+        <md-button class="md-fab float-button" ng-click="vm.modal_paquetes($event)" aria-label="Create">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    
+</md-content>
+
+<style>
+    .float-button{
+        position: fixed;
+        right: 20;
+        bottom: 20;
+        background-color: navy !important;
+    }
+    
+    .short-column{
+        width: 100px;
+        flex: initial;
+    }
+    
+    #pack-view{
+        background-color: rgb(244,244,244);
+        height: 100%;
+        padding: 16px;
+    }
+    
+    .whiteframe{
+        background-color: white;
+        padding: 8px;
+        height: 100%;
+    }
+    
+    .title-header{
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    
+    md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
+        background-color: cornflowerblue;
+    }
+    
+
+</style>

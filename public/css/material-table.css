@@ -1,0 +1,46 @@
+    md-table{
+        border-style: solid;
+        border-color: rgb(244,244,244);
+        border-width: 1px;
+        display: block;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    
+    md-table-head{
+        margin-top: 16px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: rgb(192,192,192);
+        display: block;
+    }
+    
+    md-table-head > md-table-row{
+        font-weight: bold;
+    }
+    
+    md-table-data > md-table-row:nth-child(even){
+        background-color: rgb(244,244,244);
+    }
+    
+    md-table-data{
+        overflow: auto;
+        display: block;
+    }
+    
+    md-table-cell{
+        padding: 4px;
+        position: relative;
+        float: left;
+        display: inline-flex;
+        vertical-align: inherit;
+        margin-bottom: 4px;
+        margin-top: 4px;
+        flex: 1;
+        box-sizing: border-box;
+    }
+    
+    md-table-row{
+        display: inline-flex;
+        width: 100%;
+    }

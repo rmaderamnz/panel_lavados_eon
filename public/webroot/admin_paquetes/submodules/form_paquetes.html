@@ -1,0 +1,60 @@
+<md-dialog>
+    <md-dialog-content>
+        <md-content>
+            <md-input-container class="md-block">
+                <label>Nombre</label>
+                <input ng-model="paquete.nombre" type="text">
+            </md-input-container>
+            <md-content style="max-height:160px">
+                <md-table>
+                    <md-table-head>
+                        <md-table-row class="header">
+                            <md-table-cell>Servicio</md-table-cell>
+                            <md-table-cell class="short-column">Costo</md-table-cell>
+                            <md-table-cell class="short-column"></md-table-cell>
+                        </md-table-row>
+                    </md-table-head>
+                    <md-table-data>
+                        <md-table-row ng-repeat="servicio in servicios">
+                            <md-table-cell>{{servicio.nombre}}</md-table-cell>
+                            <md-table-cell class="short-column">{{servicio.precio}}</md-table-cell>
+                            <md-table-cell class="short-column"><md-checkbox ng-model="servicio.paquete" ng-change="toggle_servicio()" aria-label="Activo"></md-checkbox></md-table-cell>
+                        </md-table-row>
+                    </md-table-data>    
+                </md-table>
+            </md-content>
+            <div id="total-cost">
+                <span>Coste servicios : $ {{costo}}</span>
+            </div>
+            <md-input-container class="md-icon-float md-block">
+                <label>Costo paquete</label>
+                <input ng-model="paquete.precio" type="number">
+            </md-input-container>
+        </md-content> 
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button class="md-raised md-warn" ng-click="cerrar()">Cancelar</md-button>
+        <md-button class="md-raised" ng-click="nuevo_paquete()">Crear</md-button>
+    </md-dialog-actions>
+</md-dialog>
+
+<style>
+    
+    #total-cost{
+        margin-bottom: 4px;
+        margin-top: 8px;
+        padding-right: 8px;
+        float: right;
+        color: rgb(144,144,144);
+    }
+    
+    md-dialog > md-dialog-content {
+        width: 640px;
+/*        height: 480px;*/
+    }
+    
+    md-dialog > md-dialog-content > md-content {
+        padding: 16px;
+    }
+
+</style>

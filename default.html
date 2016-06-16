@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <!--JS-->
+        <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-aria/angular-aria.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-messages/angular-messages.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-material/angular-material.min.js"></script>
+        
+        <!--Modulos de angular-->
+        <script type="text/javascript" src="webroot/app.js"></script>
+        <script type="text/javascript" src="webroot/dashboard/dashboard.controller.js"></script>
+        <script type="text/javascript" src="webroot/admin_paquetes/paquetes.controller.js"></script>
+        <script type="text/javascript" src="webroot/admin_servicios/servicios.controller.js"></script>
+        <!--CSS-->
+<!--        <style type="text/css" src="bower_components/angular-material/angular-material.min.css"></style>-->
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+        <link rel="stylesheet" href="css/material-table.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <!--Fonts-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+        <title>EON - Lavados</title>
+    </head>
+    <body>
+        <div id="panel-menu">
+            <md-content class="panel-menu md-padding">
+                <md-nav-bar nav-bar-aria-label="navigation links">
+                    <md-button class="md-raised" href="#/">Dashboard</md-button>
+                    <md-button class="md-raised" href="#/servicios">Servicios</md-button>
+                    <md-button class="md-raised" href="#/paquetes">Paquetes</md-button>
+                    <md-button class="md-raised" href="#/registro">Bitacoras</md-button>
+                </md-nav-bar>
+            </md-content>
+        </div>
+        <div ui-view class="page-view"></div>
+    </body>
+</html>
+<style>
+    
+    .panel-menu{
+        padding-bottom: 0;
+        padding-top: 0;
+        background-color: rgb(32,32,32);
+    }
+    
+    #panel-menu > md-content > md-nav-bar > a{
+        background-color :#3c3cc8;
+        color: white;
+    }
+</style>
