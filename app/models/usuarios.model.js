@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
 
 var usuario_schema = new Schema({
   nombre                :   String,
-  access_token           :   String,
+  uid           :   String,
+  url_imagen           :   String,
 //  tipo                  :   String,
-  precio                :   Number,
   createdBy             :   String,
   modifiedBy             :   String,
   created            :   {type: Date, default: Date.now},
