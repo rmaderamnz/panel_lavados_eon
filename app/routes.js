@@ -27,6 +27,7 @@ module.exports = function(app) {
     //PAQUETES
     app.route('/paquetes/get_list').post(paquetes.read);
     app.route('/paquetes/create').post(paquetes.create);
+    app.route('/paquetes/update').post(paquetes.update);
     app.route('/paquetes/delete').post(paquetes.delete);
     
 }

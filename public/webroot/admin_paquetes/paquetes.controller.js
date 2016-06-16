@@ -51,7 +51,11 @@ angular.module('panel').controller('PaquetesController',['$http','$mdDialog', fu
                 }
                 
                 $scope.nuevo_paquete = function(){
-                    $http.post('/paquetes/create', {conditions : $scope.paquete} ).success(function(response) {
+                    var url = '/paquetes/create';
+                    if(data){
+                        url = '/paquetes/update'
+                    }
+                    $http.post(url, {conditions : $scope.paquete} ).success(function(response) {
 //                        console.log(response);
                         $mdDialog.hide();
                     });
