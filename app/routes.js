@@ -4,6 +4,7 @@ var bodyParser  = require('body-parser');
 module.exports = function(app) {
     var servicios = require('./controllers/servicios.controller');
     var paquetes = require('./controllers/paquetes.controller');
+    var usuarios = require('./controllers/usuarios.controller');
     
     app.use(bodyParser.urlencoded({
         extended: true
