@@ -1,0 +1,32 @@
+    .float-button{
+        position: fixed;
+        right: 20;
+        bottom: 20;
+        background-color: navy !important;
+    }
+    
+    .short-column{
+        width: 100px;
+        flex: initial;
+    }
+    
+    #serv-view{
+        background-color: rgb(244,244,244);
+        height: 100%;
+        padding: 16px;
+    }
+    
+    .whiteframe{
+        background-color: white;
+        padding: 8px;
+        height: 100%;
+    }
+    
+    .title-header{
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    
+    md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
+        background-color: cornflowerblue;
+    }

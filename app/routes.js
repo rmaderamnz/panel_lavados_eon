@@ -5,6 +5,7 @@ module.exports = function(app) {
     var servicios = require('./controllers/servicios.controller');
     var paquetes = require('./controllers/paquetes.controller');
     var usuarios = require('./controllers/usuarios.controller');
+    var estadisticas = require('./controllers/estadisticas.controller');
     
     app.use(bodyParser.urlencoded({
         extended: true
@@ -35,5 +36,6 @@ module.exports = function(app) {
     app.route('/usuarios/authenticate').post(usuarios.authenticate);
     
     //ESTADISTICAS 
+    
     
 }

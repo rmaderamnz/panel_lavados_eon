@@ -1,3 +1,70 @@
-<div id="dash-view">
-    <span>Dashboard</span>
-</div>
+<md-content id="dash-view">
+    <div class="whiteframe" md-whiteframe="3">
+        <div class="title-header">
+            <h1>Panel administrador</h1>
+        </div>
+        <div layout="row">
+            <div flex="50">
+                <div class="title-header">
+                    <h3>Estadisticas servicios</h3>
+                </div>
+                <md-table>
+                    <md-table-head>
+                        <md-table-row class="header">
+                            <md-table-cell>Servicio</md-table-cell>
+                            <md-table-cell class="short-column">Ventas</md-table-cell>
+                            <md-table-cell class="short-column">Ganancias</md-table-cell>
+                        </md-table-row>
+                    </md-table-head>
+                    <md-table-data>
+                        <md-table-row>
+                            <md-table-cell>Activo</md-table-cell>
+                            <md-table-cell class="short-column">Activo</md-table-cell>
+                            <md-table-cell class="short-column">Activo</md-table-cell>
+                        </md-table-row>
+                    </md-table-data>
+                </md-table>
+            </div>
+            <div flex="50">
+                <div class="title-header">
+                    <h3>Estadisticas paquetes</h3>
+                </div>
+                <md-table>
+                    <md-table-head>
+                        <md-table-row class="header">
+                            <md-table-cell>Paquete</md-table-cell>
+                            <md-table-cell class="short-column">Ventas</md-table-cell>
+                            <md-table-cell class="short-column">Ganancias</md-table-cell>
+                        </md-table-row>
+                    </md-table-head>
+                    <md-table-data>
+                        <md-table-row>
+                            <md-table-cell>Activo</md-table-cell>
+                            <md-table-cell class="short-column">Activo</md-table-cell>
+                            <md-table-cell class="short-column">Activo</md-table-cell>
+                        </md-table-row>
+                    </md-table-data>
+                </md-table>
+            </div>
+        </div>
+        <div layout="row">
+            <div flex="33">
+                <h3>Paquetes mas vendidos</h3>
+            </div>
+            <div flex="33">
+                <h3>Servicios mas vendidos</h3>
+            </div>
+            <div flex="33">
+                <h3>Paquetes mas vendidos</h3>
+            </div>
+        </div>
+    </div>
+</md-content>
+<style>
+    #dash-view{
+        background-color: rgb(244,244,244);
+        height: 100%;
+        padding: 16px;
+    }
+    
+</style>
