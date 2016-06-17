@@ -5,6 +5,7 @@ var usuario_schema = new Schema({
   nombre                :   String,
   uid                   :   String,
   url_imagen            :   String,
+  correo                :   String,
 //  tipo                  :   String,
   createdBy             :   String,
   modifiedBy            :   String,

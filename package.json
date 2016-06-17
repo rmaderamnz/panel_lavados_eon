@@ -12,6 +12,7 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "mongoose": "^4.5.0",
+    "openpay": "^1.0.2",
     "paypal-rest-sdk": "^1.6.9"
   }
 }
