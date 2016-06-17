@@ -34,4 +34,6 @@ module.exports = function(app) {
     //USUARIOS
     app.route('/usuarios/authenticate').post(usuarios.authenticate);
     
+    //ESTADISTICAS 
+    
 }
