@@ -44,22 +44,12 @@ function new_user(params) {
 	    }
 	});
 }
-/*
-  nombre                :   String,
-  uid                   :   String,
-  url_imagen            :   String,
-//  tipo                  :   String,
-  createdBy             :   String,
-  modifiedBy            :   String,
-  created               :   {type: Date, default: Date.now},
-  deleted               :   {type: Boolean, default: false},
-*/
 
 exports.get_userlist = function(req, res){
     //db.users.find( { status: "A" }, { name: 1, status: 1, _id: 0 } )
     Usuario.find(
         { deleted : false },//restriccion
-        {nombre : 1, url_imagen : 1, created : 1, '_id' : 0}, //Campos
+        {nombre : 1, url_imagen : 1, created : 1, '_id' : 1}, //Campos
         function(err, result) {
         if(err){
             res.send(err);
@@ -69,3 +59,14 @@ exports.get_userlist = function(req, res){
     });
 }
 
+exports.delete = function(req, res){
+    var param = req.body.conditions;
+    var id = param.id;
+    Usuario.findOneAndRemove({ _id : id }, function (err, response){
+        if(err){
+            res.send(err);
+        }else{
+            res.json({ success: true });  
+        }
+    })
+}

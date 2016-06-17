@@ -7,14 +7,17 @@ var bodyParser  = require('body-parser');
 exports.get_servicios = function(req, res) {
     //Traer listado de usuarios
     Servicio.find({ activo : {$eq : true} }, function(err, result) {
-        console.log(result);
-        var format = {}
+//        console.log(result);
+        var data_format = []
         for(var k in result){
-            format['_id'] = { 
-                nombre : result[k].nombre
-            };
+//            format[k]['_id'] = { 
+//                nombre : result[k].nombre
+//            };
+            data_format.push({'nombre' : result[k].nombre});
         }
-//        res.json({ success: true, items : result });  
+        console.log(data_format);
+        res.json({ success: true});
     })
 //    res.json({success : true, items : venta_servicios});
+    //
 }

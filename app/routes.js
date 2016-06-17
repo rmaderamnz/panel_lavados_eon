@@ -33,6 +33,7 @@ module.exports = function(app) {
     //USUARIOS
     app.route('/usuarios/authenticate').post(usuarios.authenticate);
     app.route('/usuarios/list').post(usuarios.get_userlist);
+    app.route('/usuarios/delete').post(usuarios.delete);
     
     //ESTADISTICAS 
     app.route('/estadisticas/servicios').post(estadisticas.get_servicios);

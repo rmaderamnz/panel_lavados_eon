@@ -8,6 +8,7 @@
                 <md-table-row>
                     <md-table-cell>Usuario</md-table-cell>
                     <md-table-cell>Fecha de registro</md-table-cell>
+                    <md-table-cell class="short-column">Acciones</md-table-cell>
 <!--                    <md-table-cell>Acciones</md-table-cell>-->
                 </md-table-row>
             </md-table-head>
@@ -18,6 +19,11 @@
                         {{usuario.nombre}}
                     </md-table-cell>
                     <md-table-cell>{{usuario.created | date:'medium'}}</md-table-cell>
+                    <md-table-cell class="short-column">
+                        <md-button class="md-icon-button" aria-label="Borrar" ng-click="vm.borrar_usuario($event, usuario['_id'])">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        </md-button>
+                    </md-table-cell>
                 </md-table-row>
             </md-table-data>
         </md-table>
