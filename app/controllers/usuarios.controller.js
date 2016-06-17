@@ -9,7 +9,6 @@ exports.authenticate = function(req, res){
     	if (err) {
     		res.send(err);
     	}else{
-//            console.log(result);
 	        if (result.length > 0) {
 	        	res.json({ success: true , new_user : false});  
 	        } else {
@@ -34,17 +33,13 @@ function new_user(req, res, params) {
 	usuario.save(function(err) {
 	    if(err){
 	        res.send(err);
-//            return err;
 	    }else{
-            console.log('usuario creado!');
-//            return { success: true, new_user : true};
 	        res.json({ success: true, new_user : true});  
 	    }
 	});
 }
 
 exports.get_userlist = function(req, res){
-    //db.users.find( { status: "A" }, { name: 1, status: 1, _id: 0 } )
     Usuario.find(
         { deleted : false },//restriccion
         {nombre : 1, url_imagen : 1, created : 1, '_id' : 1}, //Campos

@@ -21,3 +21,7 @@ exports.get_servicios = function(req, res) {
 //    res.json({success : true, items : venta_servicios});
     //
 }
+
+exports.register_sale = function(req, res) {
+    
+}

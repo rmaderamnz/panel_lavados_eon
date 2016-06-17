@@ -1,6 +1,7 @@
 angular.module('panel').controller('DashboardController',['$http', function($http){
 //    console.log('Estoy en el controlador del dashboard');
     var vm = this;
+    vm.fecha = 0;
     
     vm.chartServicios = {
         title: {
@@ -31,6 +32,7 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
             vm.servicios = response.items
             
             //Grafica
+            
             
         });
     }

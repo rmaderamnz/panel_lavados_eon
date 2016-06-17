@@ -9,6 +9,7 @@ var paquete_schema = new Schema({
   modifiedBy            :   String,
   created               :   {type: Date, default: Date.now},
   activo                :   {type: Boolean, default: true},
+  venta                 :   {type: Schema.Types.ObjectId, ref: 'Venta'},
 })
 
 mongoose.model('Paquete', paquete_schema); 

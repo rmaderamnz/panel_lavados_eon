@@ -5,7 +5,7 @@ module.exports = function(app) {
     var servicios = require('./controllers/servicios.controller');
     var paquetes = require('./controllers/paquetes.controller');
     var usuarios = require('./controllers/usuarios.controller');
-    var estadisticas = require('./controllers/estadisticas.controller');
+    var venta = require('./controllers/venta.controller');
     
     app.use(bodyParser.urlencoded({
         extended: true
@@ -36,6 +36,6 @@ module.exports = function(app) {
     app.route('/usuarios/delete').post(usuarios.delete);
     
     //ESTADISTICAS 
-    app.route('/estadisticas/servicios').post(estadisticas.get_servicios);
+    app.route('/ventas/servicios').post(venta.get_servicios);
     
 }

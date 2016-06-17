@@ -1,14 +1,30 @@
 <md-content id="dash-view" ng-init="vm.inicializar()">
     <div class="whiteframe" md-whiteframe="3">
         <div class="title-header">
+            <md-input-container class="filtro">
+                <label>Filtrar por fecha</label>
+                <md-select ng-model="vm.fecha" >
+                    <md-optgroup label="Fecha">
+                        <md-option ng-value="0">Todos</md-option>
+                        <md-option ng-value="1">Enero</md-option>
+                        <md-option ng-value="2">Febrero</md-option>
+                        <md-option ng-value="3">Marzo</md-option>
+                        <md-option ng-value="4">Abril</md-option>
+                        <md-option ng-value="5">Mayo</md-option>
+                        <md-option ng-value="6">Junio</md-option>
+                        <md-option ng-value="7">Julio</md-option>
+                        <md-option ng-value="8">Agosto</md-option>
+                        <md-option ng-value="9">Septiembre</md-option>
+                        <md-option ng-value="10">Octubre</md-option>
+                        <md-option ng-value="11">Noviembre</md-option>
+                        <md-option ng-value="12">Diciembre</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
             <h1>Panel administrador</h1>
         </div>
+            
         <div layout="row">
-            <md-select ng-model="vm.fecha">
-                <md-optgroup label="items">
-                    <md-option ng-value="item" ng-repeat="item in items">Item {{item}}</md-option>
-                </md-optgroup>
-            </md-select>
             <div flex="50">
                 <div class="title-header">
                     <h3>Estadisticas servicios</h3>
@@ -75,6 +91,13 @@
         background-color: rgb(244,244,244);
         height: 100%;
         padding: 16px;
+    }
+    
+    .filtro{
+        position: absolute;
+        right: 64px;
+        width: 150px;
+        margin: 10px 0 0 0;
     }
     
 </style>
