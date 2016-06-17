@@ -30,4 +30,6 @@ module.exports = function(app) {
     app.route('/paquetes/update').post(paquetes.update);
     app.route('/paquetes/delete').post(paquetes.delete);
     
+    //USUARIOS
+    
 }
