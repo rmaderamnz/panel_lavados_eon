@@ -1,3 +1,9 @@
+    .result-row{
+        border-top: rgb(144,144,144);
+        border-top-width: 1px;
+        border-top-style: solid;
+    }
+
     .float-button{
         position: fixed;
         right: 20;

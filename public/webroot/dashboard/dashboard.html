@@ -1,9 +1,14 @@
-<md-content id="dash-view">
+<md-content id="dash-view" ng-init="vm.inicializar()">
     <div class="whiteframe" md-whiteframe="3">
         <div class="title-header">
             <h1>Panel administrador</h1>
         </div>
         <div layout="row">
+            <md-select ng-model="vm.fecha">
+                <md-optgroup label="items">
+                    <md-option ng-value="item" ng-repeat="item in items">Item {{item}}</md-option>
+                </md-optgroup>
+            </md-select>
             <div flex="50">
                 <div class="title-header">
                     <h3>Estadisticas servicios</h3>
@@ -17,10 +22,15 @@
                         </md-table-row>
                     </md-table-head>
                     <md-table-data>
-                        <md-table-row>
-                            <md-table-cell>Activo</md-table-cell>
+                        <md-table-row ng-repeat="servicio in vm.servicios">
+                            <md-table-cell>{{servicio.nombre}}</md-table-cell>
+                            <md-table-cell class="short-column"></md-table-cell>
                             <md-table-cell class="short-column">Activo</md-table-cell>
-                            <md-table-cell class="short-column">Activo</md-table-cell>
+                        </md-table-row>
+                        <!--Totales-->
+                        <md-table-row class="result-row">
+                            <md-table-cell></md-table-cell>
+                            <md-table-cell class="short-column">Total: $</md-table-cell>
                         </md-table-row>
                     </md-table-data>
                 </md-table>
@@ -55,7 +65,7 @@
                 <h3>Servicios mas vendidos</h3>
             </div>
             <div flex="33">
-                <h3>Paquetes mas vendidos</h3>
+                <h3>Clientes mas frecuentes</h3>
             </div>
         </div>
     </div>

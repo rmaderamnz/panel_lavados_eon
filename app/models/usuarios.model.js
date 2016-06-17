@@ -9,7 +9,7 @@ var usuario_schema = new Schema({
   createdBy             :   String,
   modifiedBy            :   String,
   created               :   {type: Date, default: Date.now},
-  deleted               :   {type: Boolean, default: true},
+  deleted               :   {type: Boolean, default: false},
 })
 
 mongoose.model('Usuario', usuario_schema); 

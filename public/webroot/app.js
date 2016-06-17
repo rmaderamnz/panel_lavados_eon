@@ -25,9 +25,9 @@ app.config(['$stateProvider','$urlRouterProvider', '$locationProvider', function
             resolve     :{}
         })
         .state('usuarios',{
-            url         : '/paquetes',
-            controller  : 'PaquetesController as vm',
-            templateUrl : 'webroot/admin_paquetes/paquetes.html',
+            url         : '/usuarios',
+            controller  : 'UsuariosController as vm',
+            templateUrl : 'webroot/usuarios/usuarios.html',
             resolve     :{}
         })
 }]);
