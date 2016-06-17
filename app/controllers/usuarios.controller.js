@@ -8,7 +8,8 @@ exports.create = function(req, res) {
 }
 
 exports.authenticate = function(req, res){
-    Usuario.find({}, function(err, result) {
-        res.json({ success: true, items : result });  
+	var params = req.body.conditions;
+    Usuario.find({ uid : params.uid }, function(err, result) {
+        console.log(result);
     })
 }

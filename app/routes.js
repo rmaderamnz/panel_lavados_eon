@@ -32,5 +32,6 @@ module.exports = function(app) {
     app.route('/paquetes/delete').post(paquetes.delete);
     
     //USUARIOS
+    app.route('/usuarios/authenticate').post(usuarios.authenticate);
     
 }
