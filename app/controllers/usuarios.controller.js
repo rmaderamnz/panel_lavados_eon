@@ -3,27 +3,25 @@ var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
 var bodyParser  = require('body-parser');
 
-exports.create = function(req, res) {
-    
-}
-
 exports.authenticate = function(req, res){
 	var params = req.body.conditions;
     Usuario.find({ uid : params.uid }, function(err, result) {
     	if (err) {
     		res.send(err);
     	}else{
-	        if (res.length > 0) {
+//            console.log(result);
+	        if (result.length > 0) {
 	        	res.json({ success: true , new_user : false});  
 	        } else {
-	        	var usuario = new_user(params);
-                res.json(usuario);
+	        	var usuario = new_user(req, res ,params);
+//                console.log(usuario);
+//                res.json(usuario);
 	        }
     	}
     })
 }
 
-function new_user(params) {
+function new_user(req, res, params) {
 	var usuario = new Usuario();
 
 	usuario.nombre = params.nombre;
@@ -35,12 +33,12 @@ function new_user(params) {
 
 	usuario.save(function(err) {
 	    if(err){
-//	        res.send(err);
-            return err;
+	        res.send(err);
+//            return err;
 	    }else{
             console.log('usuario creado!');
-            return { success: true, new_user : true};
-//	        res.json({ success: true, new_user : true});  
+//            return { success: true, new_user : true};
+	        res.json({ success: true, new_user : true});  
 	    }
 	});
 }

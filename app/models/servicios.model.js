@@ -10,6 +10,7 @@ var servicio_schema = new Schema({
   modifiedBy             :   String,
   created            :   {type: Date, default: Date.now},
   activo               :   {type: Boolean, default: true},
+  venta               :   { type: Schema.Types.ObjectId, ref: 'Story' },
 })
 
 mongoose.model('Servicio', servicio_schema);
