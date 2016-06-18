@@ -31,6 +31,8 @@ function new_user(req, res, params) {
 	usuario.createdBy = 'Admin';
 	usuario.modifiedBy = 'Admin';
     console.log('creando cliente');
+//    console.log(usuario);
+    console.log(params.mail);
     openpay.customers.create({
         external_id : params.uid,
         name : params.nombre,
@@ -38,8 +40,10 @@ function new_user(req, res, params) {
         requires_account: true
     }, function(error, customer){
         console.log(customer);
-        if(!error){
+        console.log(error);
+        if(customer){
             usuario.save(function(err) {
+                console.log(err);
                 if(err){
                     res.send(err);
                 }else{
