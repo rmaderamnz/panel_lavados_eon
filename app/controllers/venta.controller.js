@@ -1,7 +1,10 @@
-var servicio_model  = require('./../models/servicios.model');
 var mongoose = require('mongoose');
-var Servicio = mongoose.model('Servicio');
 var bodyParser  = require('body-parser');
+
+//Modelos usados
+var servicio_model  = require('./../models/servicios.model');
+var Servicio = mongoose.model('Servicio');
+
 var Openpay = require('openpay');
 var config = require('./../../config/config');
 var openpay = new Openpay(config.merchant, config.private_key, false);
@@ -35,7 +38,7 @@ exports.registrar_tarjeta = function(){
         expiration_month : param.ccv,
     }
     
-    openpay.customers.cards.create(cliente_id, cardRequest, , function(error, card){
+    openpay.customers.cards.create(cliente_id, cardRequest, function(error, card){
         console.log(card);
         if(err){
             res.json({ success: false });
@@ -46,11 +49,27 @@ exports.registrar_tarjeta = function(){
 }
 
 exports.get_tarjetas = function(){
-//    openpay.cards.list(callback);
     var param = req.body.conditions;
     var cliente_id = param.uid;
-    openpay.cards.list(cliente_id, function(){
-        
+    openpay.cards.list(cliente_id, function(error, list){
+        if(!error){
+            res.json({ success: true, items : list});
+        }else{
+            res.send(error);
+        }
+    });
+}
+
+exports.remover_tarjeta = function(req, res) {
+    var param = req.body.conditions;
+    var cliente_id = param.uid;
+    var tarjeta_id = param.card;
+    openpay.customers.cards.delete(cliente_id, tarjeta_id, function(error){
+        if(!error){
+            res.json({ success: true });
+        }else{
+            res.send(error);
+        }
     });
 }
 

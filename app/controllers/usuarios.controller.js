@@ -30,22 +30,26 @@ function new_user(req, res, params) {
 	usuario.url_imagen = params.picture_url;
 	usuario.createdBy = 'Admin';
 	usuario.modifiedBy = 'Admin';
-
-
-	usuario.save(function(err) {
-	    if(err){
-	        res.send(err);
-	    }else{
-            openpay.customers.create(
-                {
-                    external_id : params.uid,
-                    name : params.nombre,
-                    email : params.mail,
-                    requires_account: true
-                }, callback);
-	        res.json({ success: true, new_user : true});  
-	    }
-	});
+    console.log('creando cliente');
+    openpay.customers.create({
+        external_id : params.uid,
+        name : params.nombre,
+        email : params.mail,
+        requires_account: true
+    }, function(error, customer){
+        console.log(customer);
+        if(!error){
+            usuario.save(function(err) {
+                if(err){
+                    res.send(err);
+                }else{
+                    res.json({ success: true, new_user : true});  
+                }
+            })
+        }else{
+            res.send(error);
+        }
+    });
 }
 
 exports.get_userlist = function(req, res){
@@ -64,7 +68,9 @@ exports.get_userlist = function(req, res){
 exports.delete = function(req, res){
     var param = req.body.conditions;
     var id = param.id;
+    console.log('Borrando usuario');
     openpay.customers.delete(id, function(error) {
+        console.log();
         if(!error){
             Usuario.findOneAndRemove({ _id : id }, function (err, response){
             if(err){
@@ -73,6 +79,8 @@ exports.delete = function(req, res){
                 res.json({ success: true });  
             }
         })
+        }else{
+            res.send(error);
         }
     });
 }

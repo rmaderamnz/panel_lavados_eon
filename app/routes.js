@@ -35,7 +35,10 @@ module.exports = function(app) {
     app.route('/usuarios/list').post(usuarios.get_userlist);
     app.route('/usuarios/delete').post(usuarios.delete);
     
-    //ESTADISTICAS 
+    //VENTAS 
     app.route('/ventas/servicios').post(venta.get_servicios);
+    app.route('/ventas/new_card').post(venta.registrar_tarjeta);
+    app.route('/ventas/get_cards').post(venta.get_tarjetas);
+    app.route('/ventas/remove_card').post(venta.remover_tarjeta);
     
 }
