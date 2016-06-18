@@ -27,6 +27,17 @@ exports.get_servicios = function(req, res) {
     
 }
 
+//OPERACIONES CON TARJETAS
+/*
+{
+    cliente_id : cliente,
+    card : numero,
+    usuario : nombre,
+    exp_y : año expiracion,
+    exp_m : mes expiracion,
+    ccv : codigo seguridad,
+}
+*/
 exports.registrar_tarjeta = function(){
     var param = req.body.conditions;
     var cliente_id = param.uid;
@@ -35,9 +46,8 @@ exports.registrar_tarjeta = function(){
         holder_name : param.usuario,
         expiration_year : param.exp_y,
         expiration_month : param.exp_m,
-        expiration_month : param.ccv,
+        cvv2 : param.ccv,
     }
-    
     openpay.customers.cards.create(cliente_id, cardRequest, function(error, card){
         console.log(card);
         if(err){
@@ -73,6 +83,43 @@ exports.remover_tarjeta = function(req, res) {
     });
 }
 
+//VENTAS
 exports.registrar_venta = function(req, res) {
     var param = req.body.conditions;
+    var tipo = param.tipo; //Tarjeta, efectivo
+    if(tipo = 'tarjeta'){
+        var tarjeta = param.tarjeta;
+        var cliente_id = param.uid;
+        var chargeRequest = {
+            method : 'card',
+            source_id : tarjeta.id,
+            amount : param.cargo,
+            description : 'Cargo por operacion',
+            device_session_id : tarjeta.device_session,
+            customer : param.customer,
+        }
+        openpay.customers.charges.create(cliente_id, chargeRequest, function(error, charge) {
+            console.log(charge);
+            res.json({ success: true });
+        });
+    }else{
+        res.json({ success: false });
+    }
 }
+
+/*
+conditions : {
+    tipo : 'tarjeta'
+    tarjeta : {
+        id : 'id_tarjeta',//Id de la tarjeta
+        device_session : 'id_tarjeta', //Device session
+    }
+    cargo : 100,
+    cliente : 12346,//Id del cliente
+}
+*/
+
+
+
+
+
