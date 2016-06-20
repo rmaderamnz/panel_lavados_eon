@@ -36,7 +36,7 @@ module.exports = function(app) {
     app.route('/usuarios/delete').post(usuarios.delete);
     
     //VENTAS 
-    app.route('/ventas/servicios').post(venta.get_servicios);
+    app.route('/ventas/resumen').post(venta.get_ventas);
     app.route('/ventas/charge').post(venta.registrar_venta);
     app.route('/ventas/new_card').post(venta.registrar_tarjeta);
     app.route('/ventas/get_cards').post(venta.get_tarjetas);

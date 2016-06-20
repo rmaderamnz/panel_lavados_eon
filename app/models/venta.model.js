@@ -8,11 +8,13 @@ var venta_schema = new Schema({
     cometario       :   String,
     calificacion    :   String,
     tipo_compra     :   String,
+    metodo_pago     :   String,
     sale_id         :   String,
     createdBy       :   String,
     modifiedBy      :   String,
-    tipo            :   Object,
-    created         :   {type: Date, default: Date.now},
+//    compra          :   Object,
+    compra          :   { type: Schema.Types.ObjectId, ref: 'Story' },
+    created         :   { type: Date, default: Date.now},
 })
 
 mongoose.model('Venta', venta_schema);

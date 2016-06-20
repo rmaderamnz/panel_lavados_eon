@@ -26,10 +26,10 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
     
     vm.estadisticas_servicios = function(){
         var condiciones = {};
-        $http.post('/ventas/servicios', {conditions : condiciones } ).success(function(response) {
-//            console.log(response);
+        $http.post('/ventas/resumen', {conditions : condiciones } ).success(function(response) {
+            console.log(response);
             //Tabla
-            vm.servicios = response.items
+//            vm.servicios = response.items
             //Grafica
             
         });

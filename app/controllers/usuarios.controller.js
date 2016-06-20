@@ -9,13 +9,26 @@ var openpay = new Openpay(config.merchant, config.private_key, false);
 exports.authenticate = function(req, res){
     console.log('Autenticando usaurio');
 	var params = req.body.conditions;
+//    console.log(params);
     Usuario.find({ uid : params.uid }, function(err, result) {
         console.log('usuario autenticado');
     	if (err) {
     		res.send(err);
     	}else{
 	        if (result.length > 0) {
-	        	res.json({ success: true , new_user : false, customer_id : result.id_openpay});  
+                console.log(result);
+                console.log(result[0].id_openpay);
+                openpay.cards.list(result[0].id_openpay, function(error, list){
+                    if(!error){
+                        res.json({ 
+                                success: true , 
+                                new_user : false,   
+                                customer_id : result[0].id_openpay, 
+                                cards : list});  
+                    }else{
+                        res.send(error);
+                    }
+                });
 	        } else {
 	        	var usuario = new_user(req, res ,params);
 	        }
@@ -55,7 +68,7 @@ function new_user(req, res, params) {
                 if(err){
                     res.send(err);
                 }else{
-                    res.json({ success: true, new_user : true, customer_id : customer.id });  
+                    res.json({ success: true, new_user : true, customer_id : customer.id, cards : [] });  
                 }
             })
         }else{
