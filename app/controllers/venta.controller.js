@@ -6,10 +6,14 @@ var servicio_model  = require('./../models/servicios.model');
 var Servicio = mongoose.model('Servicio');
 var venta_model  = require('./../models/venta.model');
 var Venta = mongoose.model('Venta');
+var paquete_model  = require('./../models/paquetes.model');
+var Paquete = mongoose.model('Paquete');
 
+//Librerias externas
 var Openpay = require('openpay');
 var config = require('./../../config/config');
 var openpay = new Openpay(config.merchant, config.private_key, false);
+var async = require('async');
 
 //get_servicios
 exports.get_servicios = function(req, res) {
@@ -69,6 +73,7 @@ exports.get_tarjetas = function(req, res){
     var param = req.body.conditions;
     var cliente_id = param.uid;
     console.log(param);
+    console.log('Obteniendo listado!');
     openpay.cards.list(cliente_id, function(error, list){
         console.log(error);
         console.log(list);
@@ -147,10 +152,90 @@ exports.registrar_venta = function(req, res) {
     }
 }
 
-exports.get_ventas = function(req, res){
-    Venta.find({},function(err, result){
-        console.log(result);
-        res.json({ success: true, items : result });
+exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
+    async.parallel(
+        {//LLAMAR SERVICIOS Y PAQUETES
+            paquetes : function(callback){
+                Paquete.find({},function(err,result) {
+                    if(err){
+                        return callback(err);
+                    }else{
+                        var obj = {};
+                        for (var k in result) {
+                            var key = result[k]['_id'];
+                            var paquete = result[k];
+                            
+//                            console.log(key);
+                            obj[key] = {
+                                id : paquete['_id'],
+                                nombre : paquete.nombre,
+                                ventas : 0,
+                            };
+//                            array.push(obj);
+                        }
+                        callback(null, obj);
+                    }
+                })
+            },
+            servicios : function(callback){
+                Servicio.find({}, function(err, result) {
+                    if(err){
+                        return callback(err);
+                    }else{
+                        var obj = {};
+                        var array = [];
+                        for (var k in result) {
+                            var key = result[k]['_id'];
+                            var servicio = result[k];
+//                            var obj = {};
+//                            console.log(key);
+                            obj[key] = {
+                                id : servicio['_id'],
+                                nombre : servicio.nombre,
+                                costo : servicio.precio,
+                                ventas : 0,
+                            };
+//                            array.push(obj);
+                        }
+                        callback(null, obj);
+                    }
+                });
+            }
+        }, function(err, response) {
+            if(err){
+                res.json({ success: false });
+            }
+            /*
+            {created_on: {$gte: start, $lt: end}
+            */
+            var conditions = {}; 
+            Venta.find( conditions ,function(err, result){
+                if(err){
+                    res.json({ success: false });
+                }else{
+                    for (var k in result) {
+                        var venta = result[k];
+                        for (i = 0; i < venta.compra.length; i++){
+                            if(venta.tipo_compra == 'servicio'){
+//                                console.log(response.servicios);
+//                                console.log(venta.compra[i]);
+//                                console.log(response.servicios[venta.compra[i]] );
+                                response.servicios[venta.compra[i]].ventas++;
+                            }else{
+                                response.paquetes[venta.compra[i]].ventas++;
+                            }
+                        }
+//                            console.log(x);
+                            
+                    }
+                    res.json({ success: true, items : {
+                        servicios : response.servicios,
+                        paquetes : response.paquetes,
+//                        ventas : result,
+                    } });
+                }
+            });
+//        
     });
 }
 

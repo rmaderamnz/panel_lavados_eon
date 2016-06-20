@@ -16,9 +16,11 @@ exports.authenticate = function(req, res){
     		res.send(err);
     	}else{
 	        if (result.length > 0) {
-                console.log(result);
-                console.log(result[0].id_openpay);
-                openpay.cards.list(result[0].id_openpay, function(error, list){
+//                console.log(result);
+//                console.log(result[0].id_openpay);
+                openpay.customers.cards.list(result[0].id_openpay, function(error, list){
+                    console.log(list);
+                    console.log(error);
                     if(!error){
                         res.json({ 
                                 success: true , 

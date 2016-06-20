@@ -28,9 +28,48 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
         var condiciones = {};
         $http.post('/ventas/resumen', {conditions : condiciones } ).success(function(response) {
             console.log(response);
-            //Tabla
-//            vm.servicios = response.items
-            //Grafica
+            var categories = {
+                servicios : [],
+                paquetes : [],
+            };
+            
+            //Servicio
+            vm.servicios = response.items.servicios;
+            for (var k in vm.servicios){
+                categories.servicios.push({
+                    name: vm.servicios[k].nombre,
+                    y: vm.servicios[k].ventas,
+                })
+            }
+            vm.chartServicios = {
+                options :{
+                    chart:{
+                        type : 'column'
+                    },
+                    credits: { 
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                },
+                series: [{
+                    colorByPoint: true,
+                    name : 'Ventas',
+                    threshold: null,
+                    data : categories.servicios
+                }],
+                title: {
+                    text : 'Servicios mas vendidos'
+                },
+                yAxis: {
+                    min: 0,
+                }
+            }
+            
+            console.log(vm.chartCandidatos);
+            //Paquetes
+            vm.paquetes = response.items.paquetes;
             
         });
     }

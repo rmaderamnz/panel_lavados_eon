@@ -1,7 +1,8 @@
 var app = angular.module('panel',[
     'ui.router',
     'ngAnimate',
-    'ngMaterial'
+    'ngMaterial',
+    'highcharts-ng'
 ]);
 
 app.config(['$stateProvider','$urlRouterProvider', '$locationProvider', function ( $stateProvider, $urlRouterProvider, $locationProvider){

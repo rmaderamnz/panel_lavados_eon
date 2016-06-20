@@ -13,7 +13,7 @@ var venta_schema = new Schema({
     createdBy       :   String,
     modifiedBy      :   String,
 //    compra          :   Object,
-    compra          :   { type: Schema.Types.ObjectId, ref: 'Story' },
+    compra          :   [{ type: Schema.Types.ObjectId }],
     created         :   { type: Date, default: Date.now},
 })
 
