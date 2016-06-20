@@ -21,26 +21,17 @@ exports.get_servicios = function(req, res) {
 //            };
             data_format.push({'nombre' : result[k].nombre});
         }
-        console.log(data_format);
+//        console.log(data_format);
         res.json({ success: true});
     })
     
 }
 
 //OPERACIONES CON TARJETAS
-/*
-{
-    cliente_id : cliente,
-    card : numero,
-    usuario : nombre,
-    exp_y : año expiracion,
-    exp_m : mes expiracion,
-    ccv : codigo seguridad,
-}
-*/
-exports.registrar_tarjeta = function(){
+exports.registrar_tarjeta = function(req, res){
     var param = req.body.conditions;
-    var cliente_id = param.uid;
+    console.log(param);
+    var cliente_id = param.cliente_id;
     var cardRequest = {
         card_number : param.card,
         holder_name : param.usuario,
@@ -48,9 +39,13 @@ exports.registrar_tarjeta = function(){
         expiration_month : param.exp_m,
         cvv2 : param.ccv,
     }
+    console.log('Registrando tarjeta');
+    console.log('cliente');
+    console.log(cliente_id);
     openpay.customers.cards.create(cliente_id, cardRequest, function(error, card){
+        console.log(error);
         console.log(card);
-        if(err){
+        if(error){
             res.json({ success: false });
         }else{
             res.json({ success: true });
@@ -58,9 +53,10 @@ exports.registrar_tarjeta = function(){
     });
 }
 
-exports.get_tarjetas = function(){
+exports.get_tarjetas = function(req, res){
     var param = req.body.conditions;
     var cliente_id = param.uid;
+    console.log(param);
     openpay.cards.list(cliente_id, function(error, list){
         if(!error){
             res.json({ success: true, items : list});

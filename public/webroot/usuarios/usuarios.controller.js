@@ -7,8 +7,9 @@ angular.module('panel').controller('UsuariosController',['$http','$mdDialog', fu
         });
     }
     
-    vm.borrar_usuario = function(ev, usuario_id){
+    vm.borrar_usuario = function(ev, usuario_id, openpay_id){
         console.log(usuario_id);
+        console.log(openpay_id);
         var confirm = $mdDialog.confirm();
             confirm.title('Borrar servicio');
             confirm.textContent('¿Esta seguro que desea borrar el usuario?, Esta acción es permanente');
@@ -17,7 +18,7 @@ angular.module('panel').controller('UsuariosController',['$http','$mdDialog', fu
             confirm.targetEvent(ev);
             confirm.clickOutsideToClose(true);
         $mdDialog.show(confirm).then(function() {
-            $http.post('/usuarios/delete', {conditions : {id : usuario_id}} ).success(function(response) {
+            $http.post('/usuarios/delete', {conditions : {id : usuario_id, customer_id : openpay_id}} ).success(function(response) {
                 console.log(response);
                 vm.listado_usuarios();
             });

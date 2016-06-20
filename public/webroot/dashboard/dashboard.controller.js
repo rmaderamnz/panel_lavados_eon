@@ -30,7 +30,6 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
 //            console.log(response);
             //Tabla
             vm.servicios = response.items
-            
             //Grafica
             
         });

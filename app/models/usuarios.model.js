@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 var usuario_schema = new Schema({
   nombre                :   String,
   uid                   :   String,
+  id_openpay            :   String,
   url_imagen            :   String,
   mail                  :   String,
 //  tipo                  :   String,
