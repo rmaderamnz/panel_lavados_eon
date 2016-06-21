@@ -31,10 +31,10 @@
                                 </md-table-cell>
                                 <md-table-cell class="short-column">${{venta.costo}}</md-table-cell>
                                 <md-table-cell class="short-column">
-                                    <md-button class="md-icon-button" aria-label="Confirmar" ng-click="vm.confirmar_venta($event, venta)">
+                                    <md-button class="md-icon-button" aria-label="Confirmar" ng-click="vm.confirmar_venta($event, venta, 'confirm')">
                                         <i class="fa fa-check-circle" aria-hidden="true"></i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Cancelar" ng-click="vm.cancelar_venta($event, venta)">
+                                    <md-button class="md-icon-button" aria-label="Cancelar" ng-click="vm.cancelar_venta($event, venta, 'cancel')">
                                         <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                     </md-button>
                                 </md-table-cell>
@@ -44,7 +44,7 @@
                 </div>
             </md-tab>
             <md-tab label="Total de ventas">
-            <div class="title-header">
+                <div class="title-header">
                     <md-input-container class="filtro">
                         <label>Filtrar por fecha</label>
                         <md-select ng-model="vm.fecha" ng-change="vm.listado_ventas()">
@@ -106,7 +106,8 @@
                             <md-table-cell class="short-column"></md-table-cell>
                         </md-table-row>
                     </md-table-data>
-                </md-table></md-tab>
+                </md-table>
+            </md-tab>
         </md-tabs>
                 
                 

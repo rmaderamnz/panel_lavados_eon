@@ -17,7 +17,6 @@ angular.module('panel').controller('RegistrosController',['$http','$mdDialog', f
                 }else{
                     vm.pendientes.push(response.items[k]);
                 }
-//                console.log(vm.ventas[k])
             }
             console.log(vm.pendientes);
             console.log(vm.ventas);
@@ -25,31 +24,29 @@ angular.module('panel').controller('RegistrosController',['$http','$mdDialog', f
         });
     }
     
-    vm.confirmar_venta = function(ev, data){
+    vm.confirmar_venta = function(ev, data, ope){
+        console.log(data);
         var confirm = $mdDialog.confirm();
-            confirm.title('Borrar servicio');
-            confirm.textContent('¿Esta seguro que desea borrar el servicio?, Esta accion es permanente');
-            confirm.ok('Aceptar');
-            confirm.cancel('Cancelar');
-            confirm.targetEvent(ev);
-            confirm.clickOutsideToClose(true);
+        if(ope == 'confirm'){
+            confirm.title('Confirmar pago');
+            confirm.textContent('¿Desea confirmar que el pago fue realizado?');
+        }else{
+            confirm.title('Cancelar venta');
+            confirm.textContent('¿Desea cancelar la venta?');
+        }
+        confirm.ok('Aceptar');
+        confirm.cancel('Cancelar');
+        confirm.targetEvent(ev);
+        confirm.clickOutsideToClose(true);
         $mdDialog.show(confirm).then(function() {
-            var condiciones = {venta_id : vm.fecha, operacion : 'confirm'};
+            var condiciones = {venta_id : data['_id'], operacion : ope};
             $http.post('/ventas/confirm', {conditions : condiciones } ).success(function(response) {
+                console.log(response);
                 vm.listado_ventas();
             });
         }, function() {
             //Cancel
         });
-            
-        /*
-        venta_id
-operacion
-        */
-    }
-    
-    vm.cancelar_venta = function(ev, data){
-        
     }
     
     vm.consultar_venta = function(ev, data){

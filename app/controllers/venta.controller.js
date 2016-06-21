@@ -17,24 +17,6 @@ var config = require('./../../config/config');
 var openpay = new Openpay(config.merchant, config.private_key, false);
 var async = require('async');
 
-//get_servicios
-exports.get_servicios = function(req, res) {
-    //Traer listado de usuarios
-    Servicio.find({ activo : {$eq : true} }, function(err, result) {
-//        console.log(result);
-        var data_format = []
-        for(var k in result){
-//            format[k]['_id'] = { 
-//                nombre : result[k].nombre
-//            };
-            data_format.push({'nombre' : result[k].nombre});
-        }
-//        console.log(data_format);
-        res.json({ success: true});
-    })
-    
-}
-
 //OPERACIONES CON TARJETAS
 exports.registrar_tarjeta = function(req, res){
     console.log('Registrando tarjeta');
@@ -90,8 +72,9 @@ exports.confirmar_venta = function(req, res){
     var param = req.body.conditions;
     var id  = param.venta_id;
     var operacion = param.operacion;
-    if(operacion = 'confirm'){
+    if(operacion = 'confirm'){ 
         Venta.findOne({ _id : id }, function(err, venta) {
+            console.log(venta);
             venta.pagado = true;
             venta.save(function(err){
                 if(err){
@@ -267,7 +250,7 @@ exports.get_registros = function(req, res){
     if (param.usuario_id != undefined) {
         conditions.createdBy = param.usuario_id;
     }
-    Venta.find({},function(err, ventas){
+    Venta.find(conditions,function(err, ventas){
         if(err){
             res.json({ success: false });
         }
@@ -304,7 +287,7 @@ exports.get_registros = function(req, res){
             if(err){
                 res.json({ success: false });
             }else{
-                res.json({ success: false, items : ventas });
+                res.json({ success: true, items : ventas });
             }
         })
 
