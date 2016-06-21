@@ -25,7 +25,8 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
     }
     
     vm.estadisticas_servicios = function(){
-        var condiciones = {};
+        var condiciones = {date : vm.fecha};
+//        console.log(condiciones);
         $http.post('/ventas/resumen', {conditions : condiciones } ).success(function(response) {
             console.log(response);
             var categories = {
@@ -70,6 +71,37 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
             console.log(vm.chartCandidatos);
             //Paquetes
             vm.paquetes = response.items.paquetes;
+            for (var k in vm.paquetes){
+                categories.paquetes.push({
+                    name: vm.paquetes[k].nombre,
+                    y: vm.paquetes[k].ventas,
+                })
+            }
+            vm.chartPaquetes = {
+                options :{
+                    chart:{
+                        type : 'column'
+                    },
+                    credits: { 
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                },
+                series: [{
+                    colorByPoint: true,
+                    name : 'Ventas',
+                    threshold: null,
+                    data : categories.paquetes
+                }],
+                title: {
+                    text : 'Paquetes mas vendidos'
+                },
+                yAxis: {
+                    min: 0,
+                }
+            }
             
         });
     }

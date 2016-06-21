@@ -7,6 +7,7 @@ var usuario_schema = new Schema({
   id_openpay            :   String,
   url_imagen            :   String,
   mail                  :   String,
+  descuento             :   {type: Boolean, default: false},
 //  tipo                  :   String,
   createdBy             :   String,
   modifiedBy            :   String,

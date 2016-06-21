@@ -58,9 +58,6 @@ function new_user(req, res, params) {
         email : params.mail,
         requires_account: true
     }, function(error, customer){
-        console.log('cliente creado!');
-        console.log(customer);
-        console.log(error);
         if(customer){
             console.log(customer.id);
             usuario.id_openpay = customer.id;

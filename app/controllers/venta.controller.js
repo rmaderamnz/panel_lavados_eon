@@ -164,14 +164,12 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
                         for (var k in result) {
                             var key = result[k]['_id'];
                             var paquete = result[k];
-                            
-//                            console.log(key);
                             obj[key] = {
                                 id : paquete['_id'],
                                 nombre : paquete.nombre,
+                                costo  : paquete.precio,
                                 ventas : 0,
                             };
-//                            array.push(obj);
                         }
                         callback(null, obj);
                     }
@@ -187,15 +185,12 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
                         for (var k in result) {
                             var key = result[k]['_id'];
                             var servicio = result[k];
-//                            var obj = {};
-//                            console.log(key);
                             obj[key] = {
                                 id : servicio['_id'],
                                 nombre : servicio.nombre,
                                 costo : servicio.precio,
                                 ventas : 0,
                             };
-//                            array.push(obj);
                         }
                         callback(null, obj);
                     }
@@ -206,9 +201,24 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
                 res.json({ success: false });
             }
             /*
-            {created_on: {$gte: start, $lt: end}
+            var start = new Date(2010, 11, 1);
+            var end = new Date(2010, 11, 30);
+
+            db.posts.find({created_on: {$gte: start, $lt: end}});
             */
+            var param = req.body.conditions;
+            
+//            console.log();
+            console.log(end);
             var conditions = {}; 
+            console.log(param.date);
+            if(param.date != '0'){
+                console.log('Debo filtrar!');
+                var start = new Date(new Date().getFullYear(), (param.date -1), 1);
+                var end = new Date(new Date().getFullYear(), (param.date -1), 31);
+                conditions = {created: {$gte: start, $lt: end}};
+                console.log(conditions);
+            }
             Venta.find( conditions ,function(err, result){
                 if(err){
                     res.json({ success: false });
@@ -217,47 +227,18 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
                         var venta = result[k];
                         for (i = 0; i < venta.compra.length; i++){
                             if(venta.tipo_compra == 'servicio'){
-//                                console.log(response.servicios);
-//                                console.log(venta.compra[i]);
-//                                console.log(response.servicios[venta.compra[i]] );
                                 response.servicios[venta.compra[i]].ventas++;
                             }else{
                                 response.paquetes[venta.compra[i]].ventas++;
                             }
                         }
-//                            console.log(x);
-                            
                     }
                     res.json({ success: true, items : {
                         servicios : response.servicios,
                         paquetes : response.paquetes,
-//                        ventas : result,
                     } });
                 }
             });
-//        
     });
 }
-
-/*
-{
-    "_id": {
-        "$oid": "5768329332e9613a10818a02"
-    },
-    "sale_id": "trc3q9vtd8wnjhhvx9l8",
-    "metodo_pago": "tarjeta",
-    "compra": [
-        "576450b83af204a41d275720",
-        "576450423af204a41d27571e"
-    ],
-    "tipo_compra": "paquete",
-    "costo": 110,
-    "created": {
-        "$date": "2016-06-20T18:14:43.135Z"
-    },
-    "__v": 0
-}
-*/
-
-
 

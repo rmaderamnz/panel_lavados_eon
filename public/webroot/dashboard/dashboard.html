@@ -3,8 +3,8 @@
         <div class="title-header">
             <md-input-container class="filtro">
                 <label>Filtrar por fecha</label>
-                <md-select ng-model="vm.fecha" >
-                    <md-optgroup label="Fecha">
+                <md-select ng-model="vm.fecha" ng-change="vm.estadisticas_servicios()">
+                    <md-optgroup label="Fecha" >
                         <md-option ng-value="0">Todos</md-option>
                         <md-option ng-value="1">Enero</md-option>
                         <md-option ng-value="2">Febrero</md-option>
@@ -23,11 +23,10 @@
             </md-input-container>
             <h1>Panel administrador</h1>
         </div>
-            
         <div layout="row" style="margin-bottom: 64px;">
             <div flex="50">
                 <div class="title-header">
-                    <h3>Estadisticas servicios</h3>
+                    <h3>Servicios activos</h3>
                 </div>
                 <md-table>
                     <md-table-head>
@@ -56,7 +55,7 @@
             </div>
             <div flex="50" >
                 <div class="title-header">
-                    <h3>Estadisticas paquetes</h3>
+                    <h3>Paquetes activos</h3>
                 </div>
                 <md-table>
                     <md-table-head>
@@ -86,17 +85,19 @@
         </div>
         <div layout="row">
             <div flex>
-                <h3>Paquetes mas vendidos</h3>
+<!--                <h3>Paquetes mas vendidos</h3>-->
                 <highchart id="chartPaquetes" config="vm.chartPaquetes"></highchart>
             </div>
             <div flex=>
 <!--                <h3>Servicios mas vendidos</h3>-->
                 <highchart id="mapaSecciones" config="vm.chartServicios"></highchart>
             </div>
+<!--
             <div flex>
                 <h3>Clientes mas frecuentes</h3>
                 <highchart id="mapaSecciones" config="vm.chartClientes"></highchart>
             </div>
+-->
         </div>
     </div>
 </md-content>

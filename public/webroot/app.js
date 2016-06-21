@@ -31,6 +31,12 @@ app.config(['$stateProvider','$urlRouterProvider', '$locationProvider', function
             templateUrl : 'webroot/usuarios/usuarios.html',
             resolve     :{}
         })
+        .state('registros',{
+            url         : '/registro',
+            controller  : 'UsuariosController as vm',
+            templateUrl : 'webroot/bitacoras/bitacoras.html',
+            resolve     :{}
+        })
 }]);
 
 angular.element(document).ready(function() {
