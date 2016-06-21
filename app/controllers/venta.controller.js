@@ -8,6 +8,8 @@ var venta_model  = require('./../models/venta.model');
 var Venta = mongoose.model('Venta');
 var paquete_model  = require('./../models/paquetes.model');
 var Paquete = mongoose.model('Paquete');
+var usuario_model  = require('./../models/usuarios.model');
+var Usuario = mongoose.model('Usuario');
 
 //Librerias externas
 var Openpay = require('openpay');
@@ -82,6 +84,15 @@ exports.remover_tarjeta = function(req, res) {
             res.send(error);
         }
     });
+} 
+
+exports.confirmar_venta = function(req, res){
+    var param = req.body.conditions;
+    var id  = param.venta_id;
+    var operacion = param.operacion;
+    if(operacion = 'confirm'){
+        
+    }
 }
 
 //VENTAS
@@ -115,6 +126,7 @@ exports.registrar_venta = function(req, res) {
         openpay.customers.charges.create(cliente_id, chargeRequest, function(error, charge) {
             if(!error){
                 venta.sale_id = charge.id;
+                venta.pagado = true;
                 venta.save(function(err) {
                     if(err){
                         res.json(err);
@@ -257,6 +269,15 @@ exports.get_registros = function(req, res){
                 Paquete.populate( ventas, {path: 'compra.paquetes', select : 'nombre'},function(err, paquetes){
                     if(!err){
                         callback(null, paquetes);
+                    }else{
+                        return callback(err);
+                    }
+                })
+            },
+            usuarios : function(callback){
+                Usuario.populate( ventas, {path: 'createdBy', select : 'nombre url_imagen'},function(err, usuarios){
+                    if(!err){
+                        callback(null, usuarios);
                     }else{
                         return callback(err);
                     }
