@@ -45,7 +45,7 @@ module.exports = function(app) {
     app.route('/ventas/remove_card').post(venta.remover_tarjeta);
 
     //IMAGENES
-    app.route('/imagenes/guardar_imagen').post(imagenes.guardar_imagen);
     app.route('/imagenes/verifica_conexion').post(imagenes.verifica_conexion);
+    app.route('/imagenes/guardar_imagen').post(imagenes.guardar_imagen);
 
 }
