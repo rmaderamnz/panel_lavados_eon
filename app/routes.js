@@ -6,6 +6,7 @@ module.exports = function(app) {
     var paquetes = require('./controllers/paquetes.controller');
     var usuarios = require('./controllers/usuarios.controller');
     var venta = require('./controllers/venta.controller');
+    var imagenes = require('./controllers/imagenes.controller');
     
     app.use(bodyParser.urlencoded({
         extended: true
@@ -41,5 +42,9 @@ module.exports = function(app) {
     app.route('/ventas/new_card').post(venta.registrar_tarjeta);
     app.route('/ventas/get_cards').post(venta.get_tarjetas);
     app.route('/ventas/remove_card').post(venta.remover_tarjeta);
-    
+
+    //IMAGENES
+    app.route('/imagenes/guardar_imagen').post(imagenes.guardar_imagen);
+    app.route('/imagenes/verifica_conexion').post(imagenes.verifica_conexion);
+
 }
