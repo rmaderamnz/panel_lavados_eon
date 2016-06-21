@@ -16,6 +16,9 @@ exports.authenticate = function(req, res){
     		res.send(err);
     	}else{
 	        if (result.length > 0) {
+                console.log(result);
+                console.log(result['_id']);
+                
 //                openpay.customers.cards.list(result[0].id_openpay, function(error, list){
 //                    console.log(list);
 //                    console.log(error);
@@ -25,7 +28,7 @@ exports.authenticate = function(req, res){
                                 new_user : false,   
                                 customer_id : result[0].id_openpay, 
 //                                cards : list,
-                                user_id : result['_id']
+                                user_id : result[0]['_id']
                         });  
 //                    }else{
 //                        res.send(error);

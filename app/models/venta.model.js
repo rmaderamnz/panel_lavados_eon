@@ -11,6 +11,7 @@ var venta_schema = new Schema({
     metodo_pago     :   String,
     sale_id         :   String,
     createdBy       :   { type: Schema.Types.ObjectId, ref: 'Usuario' },
+    direccion       :   Object,
     modifiedBy      :   String,
     descuento       :   {type: Boolean, default: false},
     pagado          :   {type: Boolean, default: false},

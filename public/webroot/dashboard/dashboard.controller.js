@@ -67,8 +67,6 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
                     min: 0,
                 }
             }
-            
-            console.log(vm.chartCandidatos);
             //Paquetes
             vm.paquetes = response.items.paquetes;
             for (var k in vm.paquetes){
