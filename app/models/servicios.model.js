@@ -10,8 +10,7 @@ var servicio_schema = new Schema({
   modifiedBy             :   String,
   created            :   {type: Date, default: Date.now},
   activo               :   {type: Boolean, default: true},
-  deleted               :   {type: Boolean, default: false},
-  venta               :   { type: Schema.Types.ObjectId, ref: 'Venta' },
+  deleted               :   {type: Boolean, default: false}
 })
 
 mongoose.model('Servicio', servicio_schema);

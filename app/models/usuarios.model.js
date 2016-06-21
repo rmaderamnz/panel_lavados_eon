@@ -8,7 +8,6 @@ var usuario_schema = new Schema({
   url_imagen            :   String,
   mail                  :   String,
   descuento             :   {type: Boolean, default: false},
-//  tipo                  :   String,
   createdBy             :   String,
   modifiedBy            :   String,
   created               :   {type: Date, default: Date.now},

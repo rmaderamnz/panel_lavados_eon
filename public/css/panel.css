@@ -36,3 +36,10 @@
     md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
         background-color: cornflowerblue;
     }
+
+    .filtro{
+        position: absolute;
+        right: 64px;
+        width: 150px;
+        margin: 10px 0 0 0;
+    }

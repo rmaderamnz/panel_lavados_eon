@@ -2,8 +2,8 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 var venta_schema = new Schema({
-    antes           :   Number,
-    despues         :   Number,
+    antes           :   String,
+    despues         :   String,
     costo           :   Number,
     cometario       :   String,
     calificacion    :   String,
@@ -12,8 +12,11 @@ var venta_schema = new Schema({
     sale_id         :   String,
     createdBy       :   String,
     modifiedBy      :   String,
+    descuento       :   {type: Boolean, default: false},
 //    compra          :   Object,
-    compra          :   [{ type: Schema.Types.ObjectId }],
+//    compra          :   [{ type: Schema.Types.ObjectId }],
+    compra          : { servicios : [{ type: Schema.Types.ObjectId, ref: 'Servicio' }],
+                        paquetes : [{ type: Schema.Types.ObjectId, ref: 'Paquete' }]},
     created         :   { type: Date, default: Date.now},
 })
 

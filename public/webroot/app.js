@@ -33,8 +33,8 @@ app.config(['$stateProvider','$urlRouterProvider', '$locationProvider', function
         })
         .state('registros',{
             url         : '/registro',
-            controller  : 'UsuariosController as vm',
-            templateUrl : 'webroot/bitacoras/bitacoras.html',
+            controller  : 'RegistrosController as vm',
+            templateUrl : 'webroot/registros/registros.html',
             resolve     :{}
         })
 }]);

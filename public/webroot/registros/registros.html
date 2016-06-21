@@ -1,0 +1,69 @@
+<md-content id="pack-view" ng-init="vm.listado_ventas()">
+    <div class="whiteframe" md-whiteframe="3">
+        <div class="title-header">
+            <md-input-container class="filtro">
+                <label>Filtrar por fecha</label>
+                <md-select ng-model="vm.fecha" ng-change="vm.listado_ventas()">
+                    <md-optgroup label="Fecha" >
+                        <md-option ng-value="0">Todos</md-option>
+                        <md-option ng-value="1">Enero</md-option>
+                        <md-option ng-value="2">Febrero</md-option>
+                        <md-option ng-value="3">Marzo</md-option>
+                        <md-option ng-value="4">Abril</md-option>
+                        <md-option ng-value="5">Mayo</md-option>
+                        <md-option ng-value="6">Junio</md-option>
+                        <md-option ng-value="7">Julio</md-option>
+                        <md-option ng-value="8">Agosto</md-option>
+                        <md-option ng-value="9">Septiembre</md-option>
+                        <md-option ng-value="10">Octubre</md-option>
+                        <md-option ng-value="11">Noviembre</md-option>
+                        <md-option ng-value="12">Diciembre</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+            <h1>Administrador de paquetes</h1>
+        </div>
+        <md-table>
+            <md-table-head>
+                <md-table-row class="header">
+                    <md-table-cell>Fecha</md-table-cell>
+                    <md-table-cell class="short-column">Tipo compra</md-table-cell>
+                    <md-table-cell class="short-column">Metodo pago</md-table-cell>
+                    <md-table-cell class="short-column">Importe</md-table-cell>
+                    <md-table-cell class="short-column">Descuento</md-table-cell>
+                    <md-table-cell class="short-column">Detalles</md-table-cell>
+                </md-table-row>
+            </md-table-head>
+            <md-table-data>
+                <md-table-row ng-repeat="venta in vm.ventas">
+                    <md-table-cell>{{venta.created | date:'medium'}}</md-table-cell>
+                    <md-table-cell class="short-column">{{venta.tipo_compra}}</md-table-cell>
+                    <md-table-cell class="short-column">{{venta.metodo_pago}}</md-table-cell>
+                    <md-table-cell class="short-column">${{venta.costo}}</md-table-cell>
+                    <md-table-cell class="short-column">
+                        <span ng-if="venta.descuento">Si</span>
+                        <span ng-if="!venta.descuento">No</span>
+                    </md-table-cell>
+                    <md-table-cell class="short-column">
+                        <md-button class="md-icon-button" aria-label="Consultar" ng-click="vm.detalles($event, venta)">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        </md-button>
+                    </md-table-cell>
+                </md-table-row>
+            </md-table-data>
+        </md-table>
+        <md-button class="md-fab float-button" ng-click="vm.modal_paquetes($event)" aria-label="Create">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    
+</md-content>
+<style>
+    #pack-view{
+        background-color: rgb(244,244,244);
+        height: 100%;
+        padding: 32px;
+    }
+    
+    
+</style>

@@ -46,35 +46,21 @@ exports.registrar_tarjeta = function(req, res){
         expiration_month : param.exp_m,
         cvv2 : param.ccv,
     }
-//    openpay.customers.cards.get(cliente_id, param.card, function(error,card){
-//        console.log(error);
-//        console.log(card);
-//        if(error.error_code == 1005){
-            openpay.customers.cards.create(cliente_id, cardRequest, function(error, card){
-                console.log(error);
-//                console.log(card);
-                if(error){
-                    res.json({ success: false });
-                }else{
-                    console.log('Tarjeta registrada!');
-                    res.json({ success: true , card_id : card.id });
-                }
-            });
-//        }else{
-//            console.log('Tarjeta ya registrada!');
-//            res.json({ success: false});
-//        }
-//    });
-    
-        
+    openpay.customers.cards.create(cliente_id, cardRequest, function(error, card){
+        console.log(error);
+        if(error){
+            res.json({ success: false });
+        }else{
+            console.log('Tarjeta registrada!');
+            res.json({ success: true , card_id : card.id });
+        }
+    });
 }
 
 exports.get_tarjetas = function(req, res){
     var param = req.body.conditions;
     var cliente_id = param.uid;
-    console.log(param);
-    console.log('Obteniendo listado!');
-    openpay.cards.list(cliente_id, function(error, list){
+    openpay.customers.cards.list(cliente_id, function(error, list){
         console.log(error);
         console.log(list);
         if(!error){
@@ -100,14 +86,19 @@ exports.remover_tarjeta = function(req, res) {
 
 //VENTAS
 exports.registrar_venta = function(req, res) {
-    console.log('Registrando venta!');
     var venta = new Venta();
     var param = req.body.conditions;
     var tipo = param.tipo; //Tarjeta, efectivo
     venta.costo = param.cargo;
+    venta.antes = param.antes;
     venta.createdBy = param.uid;
     venta.tipo_compra = param.tipo_compra;
-    venta.compra = param.compra;
+//    venta.compra = param.compra;
+    if(venta.tipo_compra == 'servicio'){
+        venta.compra.servicios = param.compra;
+    }else{
+        venta.compra.paquetes = param.compra;
+    }
     venta.metodo_pago = tipo;
     if(tipo = 'tarjeta'){
         console.log('Pago con tarjeta!');
@@ -152,7 +143,7 @@ exports.registrar_venta = function(req, res) {
     }
 }
 
-exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
+exports.get_ventas = function(req, res){
     async.parallel(
         {//LLAMAR SERVICIOS Y PAQUETES
             paquetes : function(callback){
@@ -200,20 +191,11 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
             if(err){
                 res.json({ success: false });
             }
-            /*
-            var start = new Date(2010, 11, 1);
-            var end = new Date(2010, 11, 30);
-
-            db.posts.find({created_on: {$gte: start, $lt: end}});
-            */
             var param = req.body.conditions;
-            
-//            console.log();
             console.log(end);
             var conditions = {}; 
             console.log(param.date);
             if(param.date != '0'){
-                console.log('Debo filtrar!');
                 var start = new Date(new Date().getFullYear(), (param.date -1), 1);
                 var end = new Date(new Date().getFullYear(), (param.date -1), 31);
                 conditions = {created: {$gte: start, $lt: end}};
@@ -227,9 +209,9 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
                         var venta = result[k];
                         for (i = 0; i < venta.compra.length; i++){
                             if(venta.tipo_compra == 'servicio'){
-                                response.servicios[venta.compra[i]].ventas++;
+                                response.servicios[venta.compra.servicios[i]].ventas++;
                             }else{
-                                response.paquetes[venta.compra[i]].ventas++;
+                                response.paquetes[venta.compra.paquetes[i]].ventas++;
                             }
                         }
                     }
@@ -239,6 +221,53 @@ exports.get_ventas = function(req, res){//conditions  : { mes : 1 }
                     } });
                 }
             });
+        });
+}
+
+//REGISTROS
+exports.get_registros = function(req, res){
+    var param = req.body.conditions;
+    console.log(param);
+    var conditions = {}; 
+    if(param.date != '0'){
+        var start = new Date(new Date().getFullYear(), (param.date -1), 1);
+        var end = new Date(new Date().getFullYear(), (param.date -1), 31);
+        conditions = {created: {$gte: start, $lt: end}};
+    }
+    Venta.find({},function(err, ventas){
+        if(err){
+            res.json({ success: false });
+        }
+        //Populate
+        async.parallel({
+            servicios : function(callback){
+                Servicio.populate( ventas, {path: 'compra.servicios', select : 'nombre'},function(err, servicios){
+                    if(!err){
+                        callback(null, servicios);
+                    }else{
+                        return callback(err);
+                    }
+                });
+            },
+            paquetes : function(callback){
+                Paquete.populate( ventas, {path: 'compra.paquetes', select : 'nombre'},function(err, paquetes){
+                    if(!err){
+                        callback(null, paquetes);
+                    }else{
+                        return callback(err);
+                    }
+                })
+            }
+        }, function(err, response) {
+            if(err){
+                res.json({ success: false });
+            }else{
+                res.json({ success: false, items : ventas });
+            }
+        })
+
     });
 }
+
+
 

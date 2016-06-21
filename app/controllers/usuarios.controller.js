@@ -16,8 +16,6 @@ exports.authenticate = function(req, res){
     		res.send(err);
     	}else{
 	        if (result.length > 0) {
-//                console.log(result);
-//                console.log(result[0].id_openpay);
                 openpay.customers.cards.list(result[0].id_openpay, function(error, list){
                     console.log(list);
                     console.log(error);
@@ -76,7 +74,7 @@ function new_user(req, res, params) {
     });
 }
 
-exports.get_userlist = function(req, res){
+exports.get_userlist = function(req, res) {
     Usuario.find(
         { deleted : false },//restriccion
         {nombre : 1, url_imagen : 1, created : 1, '_id' : 1, id_openpay : 1}, //Campos
@@ -89,7 +87,7 @@ exports.get_userlist = function(req, res){
     });
 }
 
-exports.delete = function(req, res){
+exports.delete = function(req, res) {
     var param = req.body.conditions;
     var id = param.id;
     var open_id = param.customer_id;
