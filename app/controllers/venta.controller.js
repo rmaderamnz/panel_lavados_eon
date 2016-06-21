@@ -234,7 +234,7 @@ exports.get_registros = function(req, res){
         var end = new Date(new Date().getFullYear(), (param.date -1), 31);
         conditions = {created: {$gte: start, $lt: end}};
     }
-
+ 
     if (param.usuario_id != undefined) {
         conditions.createdBy = param.usuario_id;
     }
