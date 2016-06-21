@@ -11,8 +11,8 @@ angular.module('panel').controller('RegistrosController',['$http','$mdDialog', f
             vm.ventas = [];
             vm.total = 0;
             for(var k in response.items){
-                vm.total += response.items[k].costo;
                 if(response.items[k].pagado){
+                    vm.total += response.items[k].costo;
                     vm.ventas.push(response.items[k]);
                 }else{
                     vm.pendientes.push(response.items[k]);

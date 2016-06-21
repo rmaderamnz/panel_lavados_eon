@@ -91,7 +91,24 @@ exports.confirmar_venta = function(req, res){
     var id  = param.venta_id;
     var operacion = param.operacion;
     if(operacion = 'confirm'){
-        
+        Venta.findOne({ _id : id }, function(err, venta) {
+            venta.pagado = true;
+            venta.save(function(err){
+                if(err){
+                    res.send(err);
+                }else{
+                    res.json({ success: true });  
+                }
+            });
+        });
+    } else {
+        Venta.findOneAndRemove({ _id : id }, function (err, response){
+            if(err){
+                res.send(err);
+            }else{
+                res.json({ success: true });  
+            }
+        })
     }
 }
 
