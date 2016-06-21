@@ -249,6 +249,7 @@ exports.get_ventas = function(req, res){
 exports.get_registros = function(req, res){
     var param = req.body.conditions;
     var conditions = {}; 
+    console.log(param);
     if(param.date != '0'){
         var start = new Date(new Date().getFullYear(), (param.date -1), 1);
         var end = new Date(new Date().getFullYear(), (param.date -1), 31);
@@ -256,8 +257,9 @@ exports.get_registros = function(req, res){
     }
  
     if (param.usuario_id != undefined) {
-        conditions.createdBy = param.usuario_id;
+        conditions.createdBy = {'$eq' : param.usuario_id};
     }
+    console.log(conditions);
     Venta.find(conditions,function(err, ventas){
         if(err){
             res.json({ success: false });
