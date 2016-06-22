@@ -250,17 +250,14 @@ exports.get_ventas = function(req, res){
 exports.get_registros = function(req, res){
     var param = req.body.conditions;
     var conditions = {}; 
-    console.log(param);
     if(param.date != '0'){
         var start = new Date(new Date().getFullYear(), (param.date -1), 1);
         var end = new Date(new Date().getFullYear(), (param.date -1), 31);
         conditions = {created: {$gte: start, $lt: end}};
     }
- 
     if (param.usuario_id != undefined) {
         conditions.createdBy = {'$eq' : param.usuario_id};
     }
-    console.log(conditions);
     Venta.find(conditions,function(err, ventas){
         if(err){
             res.json({ success: false });
@@ -321,7 +318,16 @@ exports.update_despues = function(req, res) {
                 if (err) {
                     res.json({ success : false, error : err})
                 }else {
-                    res.json({ success : true});
+//                    var usuario = venta.createdBy
+                    Venta.update(
+                        { createdBy : venta.createdBy, _id :{ $ne: venta['_id'] } },
+                        { $set: { despues: 'no-foto' }}, function(err){
+                            if (err) {
+                                res.json({ success : false});
+                            }else{
+                                res.json({ success : true});
+                            }
+                        });
                 }
             });
         }
