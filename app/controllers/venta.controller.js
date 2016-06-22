@@ -318,9 +318,9 @@ exports.update_despues = function(req, res) {
                 if (err) {
                     res.json({ success : false, error : err})
                 }else {
-                    var usuario = venta.createdBy
+//                    var usuario = venta.createdBy
                     Venta.update(
-                        { createdBy : usuario },
+                        { createdBy : venta.createdBy, _id :{ $not: {venta['_id']} } },
                         { $set: { despues: 'no-foto' }}, function(err){
                             if (err) {
                                 res.json({ success : false});
