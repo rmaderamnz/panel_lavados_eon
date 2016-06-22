@@ -23,12 +23,12 @@
             </md-input-container>
             <h1>Panel administrador</h1>
         </div>
-        <fieldset class="standard" >
+        <fieldset class="standard" ng-if="vm.pendientes.length > 0">
             <legend>Aviso</legend>
             <div layout="row">
                 <div><i class="fa fa-exclamation-circle fa-5x" aria-hidden="true" style="color: orange;"></i></div>
                 <div flex>
-                    <span>XX Ventas se encuentran pendientes de validar</span>
+                    <span>{{vm.pendientes.length}} Ventas se encuentran pendientes de validar</span>
                     <md-button>Ver mas <i class="fa fa-chevron-right" aria-hidden="true"></i></md-button>
                 </div>
             </div>    

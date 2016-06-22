@@ -100,7 +100,8 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
                     min: 0,
                 }
             }
-            
+            //Pendientes
+            vm.pendientes = response.items.pendientes;
         });
     }
     

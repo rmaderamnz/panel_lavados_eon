@@ -74,7 +74,7 @@ exports.confirmar_venta = function(req, res){
     if(operacion == 'confirm'){ 
         Venta.findOne({ _id : id }, function(err, venta) {
             console.log(venta);
-            venta.pagado = true;
+            venta.confirmada = true;
             venta.save(function(err){
                 if(err){
                     res.send(err);
@@ -112,6 +112,7 @@ exports.registrar_venta = function(req, res) {
         venta.compra.paquetes = param.compra;
     }
     venta.metodo_pago = tipo;
+    venta.telefono = params.telefono;
     console.log(tipo);
     if(tipo == 'tarjeta'){
         console.log('Pago con tarjeta!');
@@ -128,7 +129,7 @@ exports.registrar_venta = function(req, res) {
         openpay.customers.charges.create(cliente_id, chargeRequest, function(error, charge) {
             if(!error){
                 venta.sale_id = charge.id;
-                venta.pagado = true;
+//                venta.confirmada = true;
                 venta.save(function(err, vnt) {
                     console.log('venta guardada', vnt);
                     if(err){
@@ -207,7 +208,7 @@ exports.get_ventas = function(req, res){
                 res.json({ success: false });
             }
             var param = req.body.conditions;
-            var conditions = { pagado : {$eq : true} }; 
+            var conditions = { /*confirmada : {$eq : true}*/ };
             if(param.date != '0'){
                 var start = new Date(new Date().getFullYear(), (param.date -1), 1);
                 var end = new Date(new Date().getFullYear(), (param.date -1), 31);
@@ -220,26 +221,32 @@ exports.get_ventas = function(req, res){
                     res.json({ success: false });
                 }else{
 //                    console.log(result);
+                    var v_pendientes = [];
                     for (var k in result) {
                         var venta = result[k];
-//                        console.log(venta.compra);
-                        var tam = 0;
-                        if(venta.tipo_compra == 'servicio'){
-                            tam = venta.compra.servicios.length;
-                        }else{
-                            tam = venta.compra.paquetes.length;
-                        }
-                        for (i = 0; i < tam; i++){
+                        if(venta.confirmada){
+                            var tam = 0;
                             if(venta.tipo_compra == 'servicio'){
-                                response.servicios[venta.compra.servicios[i]].ventas++;
+                                tam = venta.compra.servicios.length;
                             }else{
-                                response.paquetes[venta.compra.paquetes[i]].ventas++;
+                                tam = venta.compra.paquetes.length;
                             }
-                        }
+                            for (i = 0; i < tam; i++){
+                                if(venta.tipo_compra == 'servicio'){
+                                    response.servicios[venta.compra.servicios[i]].ventas++;
+                                }else{
+                                    response.paquetes[venta.compra.paquetes[i]].ventas++;
+                                }
+                            }
+                        }else{
+                            v_pendientes.push(venta);
+                        }   
                     }
                     res.json({ success: true, items : {
                         servicios : response.servicios,
                         paquetes : response.paquetes,
+                        pendientes : v_pendientes,
+                        
                     } });
                 }
             });
@@ -318,7 +325,6 @@ exports.update_despues = function(req, res) {
                 if (err) {
                     res.json({ success : false, error : err})
                 }else {
-//                    var usuario = venta.createdBy
                     Venta.update(
                         { createdBy : venta.createdBy, _id :{ $ne: venta['_id'] } },
                         { $set: { despues: 'no-foto' }}, function(err){
