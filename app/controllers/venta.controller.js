@@ -129,11 +129,12 @@ exports.registrar_venta = function(req, res) {
             if(!error){
                 venta.sale_id = charge.id;
                 venta.pagado = true;
-                venta.save(function(err) {
+                venta.save(function(err, vnt) {
+                    console.log('venta guardada', vnt);
                     if(err){
                         res.json(err);
                     }else{
-                        res.json({ success: true });
+                        res.json({ success: true, venta_id : vnt['_id'] });
                     }
                 });
             }else{
@@ -145,12 +146,12 @@ exports.registrar_venta = function(req, res) {
         });
     }else{
         venta.sale_id = '0';
-        venta.save(function(err) {
+        venta.save(function(err, vnt) {
             console.log(err);
             if(err){
                 res.json({ success: false });
             }else{
-                res.json({ success: true });
+                res.json({ success: true, venta_id : vnt['_id'] });
             }
         });
 //        res.json({ success: true });
@@ -305,10 +306,14 @@ exports.get_registros = function(req, res){
 }
 
 exports.update_despues = function(req, res) {
+
+    console.log('llego a update despues');
     var params = req.body.conditions;
+    console.log(params);
 
     Venta.findById(params.id, function (err, venta) {
         if (err) {
+            console.log('error update despues', err);
             res.json({ success : false, error : err})
         }else {
             venta.despues = params.despues;

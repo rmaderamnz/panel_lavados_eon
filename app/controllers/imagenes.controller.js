@@ -26,8 +26,10 @@ exports.guardar_imagen = function(req, res){
 		};
 	s3Bucket.putObject(data, function(err, dat){
 	    if (err) {
+	    	console.log('no guarde imagen', err);
 	    	res.json({ success: false, error : err }); 
 	    } else {
+	    	console.log('si guarde imagen');
 	    	res.json({ success: true, data : dat, url : 'https://s3-us-west-1.amazonaws.com/lavadoapp/'+key }); 
 	    }
 	});
