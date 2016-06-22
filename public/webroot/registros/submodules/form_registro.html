@@ -5,7 +5,19 @@
                 <label>Fecha</label>
                 <input ng-model="venta.created" ng-disabled="true" type="text">
             </md-input-container>
-            <div layout="row" style="padding:32px;">
+            {{venta.direccion}}
+            <div id="mapa" style="height:200px;">
+                <ui-gmap-google-map 
+                        center='map.center' 
+                        zoom='map.zoom'>
+                    <ui-gmap-marker
+                                    idkey="venta['_id']" 
+                                    coords='venta.direccion'
+                                   >
+                    </ui-gmap-marker>
+                </ui-gmap-google-map>
+            </div>
+            <div layout="row" style="padding:32px;" ng-if="venta.antes">
                 <div flex style="text-align: center;">
                     <img ng-src="{{venta.antes}}" />
                     <span>Antes</span>
@@ -28,8 +40,7 @@
         </md-content> 
     </md-dialog-content>
     <md-dialog-actions>
-        <md-button class="md-raised md-warn" ng-click="cerrar()">Cancelar</md-button>
-        <md-button class="md-raised" ng-click="nuevo_paquete()">Crear</md-button>
+        <md-button class="md-raised md-warn" ng-click="cerrar()">Cerrar</md-button>
     </md-dialog-actions>
 </md-dialog>
 

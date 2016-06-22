@@ -9,8 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.4.0",
+    "angular-google-maps": "^2.3.3",
     "async": "^2.0.0-rc.6",
+    "aws-sdk": "^2.4.0",
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "mongoose": "^4.5.0",

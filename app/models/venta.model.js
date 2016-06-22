@@ -16,6 +16,7 @@ var venta_schema = new Schema({
     modifiedBy      :   String,
     descuento       :   {type: Boolean, default: false},
     confirmada      :   {type: Boolean, default: false},
+    rechazado       :   {type: Boolean, default: false},
     compra          : { servicios : [{ type: Schema.Types.ObjectId, ref: 'Servicio' }],
                         paquetes : [{ type: Schema.Types.ObjectId, ref: 'Paquete' }]},
     created         :   { type: Date, default: Date.now},

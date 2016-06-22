@@ -2,6 +2,8 @@ var app = angular.module('panel',[
     'ui.router',
     'ngAnimate',
     'ngMaterial',
+//    'uiGmapGoogleMapApi',
+    'uiGmapgoogle-maps',
     'highcharts-ng'
 ]);
 

@@ -1,6 +1,7 @@
 <html>
     <head>
         <!--JS-->
+        <script type="text/javascript" src="bower_components/lodash/dist/lodash.min.js"></script>
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/highcharts/highcharts.js"></script>
         <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
@@ -10,6 +11,9 @@
         <script type="text/javascript" src="bower_components/angular-messages/angular-messages.min.js"></script>
         <script type="text/javascript" src="bower_components/angular-material/angular-material.min.js"></script>
         <script type="text/javascript" src="bower_components/highcharts-ng/dist/highcharts-ng.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
+        <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
         
         <!--Modulos de angular-->
         <script type="text/javascript" src="webroot/app.js"></script>
@@ -19,7 +23,6 @@
         <script type="text/javascript" src="webroot/registros/registros.controller.js"></script>
         <script type="text/javascript" src="webroot/usuarios/usuarios.controller.js"></script>
         <!--CSS-->
-<!--        <style type="text/css" src="bower_components/angular-material/angular-material.min.css"></style>-->
         <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
         <link rel="stylesheet" href="css/material-table.css">
         <link rel="stylesheet" href="css/panel.css">
@@ -40,6 +43,11 @@
                 </md-nav-bar>
             </md-content>
         </div>
+<!--
+        <div class="loading-mask">
+            <md-progress-circular md-mode="indeterminate" md-diameter="96"></md-progress-circular>
+        </div>
+-->
         <div ui-view class="page-view"></div>
     </body>
 </html>

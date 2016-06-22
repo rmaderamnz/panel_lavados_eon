@@ -1,116 +1,72 @@
 <md-content id="pack-view" ng-init="vm.listado_ventas()">
     <div class="whiteframe" md-whiteframe="3">
-        <md-tabs md-stretch-tabs="always" flex layout="column" layout-fill>
-            <md-tab label="Ventas pendientes">
-                <div ng-if="vm.pendientes">
-                    <div class="title-header">
-                        <h1>Ventas pendientes</h1>
-                    </div>
-                    <md-table>
-                        <md-table-head>
-                            <md-table-row class="header">
-                                <md-table-cell>Fecha</md-table-cell>
-                                <md-table-cell>Usuario</md-table-cell>
-                                <md-table-cell class="short-column">Tipo compra</md-table-cell>
-                                <md-table-cell class="short-column">Importe</md-table-cell>
-                                <md-table-cell class="short-column">Descuento</md-table-cell>
-                                <md-table-cell class="short-column">Acciones</md-table-cell>
-                            </md-table-row>
-                        </md-table-head>
-                        <md-table-data>
-                            <md-table-row ng-repeat="venta in vm.pendientes">
-                                <md-table-cell>{{venta.created | date:'medium'}}</md-table-cell>
-                                <md-table-cell>
-                                    <img ng-src="{{venta.createdBy.url_imagen}}" />
-                                    {{venta.createdBy.nombre}}
-                                </md-table-cell>
-                                <md-table-cell class="short-column">{{venta.tipo_compra}}</md-table-cell>
-                                <md-table-cell class="short-column">
-                                    <span ng-if="venta.descuento">Si</span>
-                                    <span ng-if="!venta.descuento">No</span>
-                                </md-table-cell>
-                                <md-table-cell class="short-column">${{venta.costo}}</md-table-cell>
-                                <md-table-cell class="short-column">
-                                    <md-button class="md-icon-button" aria-label="Confirmar" ng-click="vm.confirmar_venta($event, venta, 'confirm')">
-                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                    </md-button>
-                                    <md-button class="md-icon-button" aria-label="Cancelar" ng-click="vm.confirmar_venta($event, venta, 'cancel')">
-                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                                    </md-button>
-                                </md-table-cell>
-                            </md-table-row>
-                        </md-table-data>
-                    </md-table>
-                </div>
-            </md-tab>
-            <md-tab label="Total de ventas">
-                <div class="title-header">
-                    <md-input-container class="filtro">
-                        <label>Filtrar por fecha</label>
-                        <md-select ng-model="vm.fecha" ng-change="vm.listado_ventas()">
-                            <md-optgroup label="Fecha" >
-                                <md-option ng-value="0">Todos</md-option>
-                                <md-option ng-value="1">Enero</md-option>
-                                <md-option ng-value="2">Febrero</md-option>
-                                <md-option ng-value="3">Marzo</md-option>
-                                <md-option ng-value="4">Abril</md-option>
-                                <md-option ng-value="5">Mayo</md-option>
-                                <md-option ng-value="6">Junio</md-option>
-                                <md-option ng-value="7">Julio</md-option>
-                                <md-option ng-value="8">Agosto</md-option>
-                                <md-option ng-value="9">Septiembre</md-option>
-                                <md-option ng-value="10">Octubre</md-option>
-                                <md-option ng-value="11">Noviembre</md-option>
-                                <md-option ng-value="12">Diciembre</md-option>
-                            </md-optgroup>
-                        </md-select>
-                    </md-input-container>
-                    <h1>Ventas registradas</h1>
-                </div>
-                <md-table>
-                    <md-table-head>
-                        <md-table-row class="header">
-                            <md-table-cell>Fecha</md-table-cell>
-                            <md-table-cell>Usuario</md-table-cell>
-                            <md-table-cell class="short-column">Tipo compra</md-table-cell>
-                            <md-table-cell class="short-column">Metodo pago</md-table-cell>
-                            <md-table-cell class="short-column">Importe</md-table-cell>
-                            <md-table-cell class="short-column">Descuento</md-table-cell>
-                            <md-table-cell class="short-column">Detalles</md-table-cell>
-                        </md-table-row>
-                    </md-table-head>
-                    <md-table-data>
-                        <md-table-row ng-repeat="venta in vm.ventas">
-                            <md-table-cell>{{venta.created | date:'medium'}}</md-table-cell>
-                            <md-table-cell>
-                                <img ng-src="{{venta.createdBy.url_imagen}}" />
-                                {{venta.createdBy.nombre}}
-                            </md-table-cell>
-                            <md-table-cell class="short-column">{{venta.tipo_compra}}</md-table-cell>
-                            <md-table-cell class="short-column">{{venta.metodo_pago}}</md-table-cell>
-                            <md-table-cell class="short-column">
-                                <span ng-if="venta.descuento">Si</span>
-                                <span ng-if="!venta.descuento">No</span>
-                            </md-table-cell>
-                            <md-table-cell class="short-column">${{venta.costo}}</md-table-cell>
-                            <md-table-cell class="short-column">
-                                <md-button class="md-icon-button" aria-label="Consultar" ng-click="vm.consultar_venta($event, venta)">
-                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                                </md-button>
-                            </md-table-cell>
-                        </md-table-row>
-                        <md-table-row style="border-top: rgb(192,192,192); border-top-width: 2px; border-top-style: solid;">
-                            <md-table-cell></md-table-cell>
-                            <md-table-cell class="short-column"><b>Importe total:</b></md-table-cell>
-                            <md-table-cell class="short-column"><b>${{vm.total}}</b></md-table-cell>
-                            <md-table-cell class="short-column"></md-table-cell>
-                        </md-table-row>
-                    </md-table-data>
-                </md-table>
-            </md-tab>
-        </md-tabs>
-                
-                
+        <div class="title-header">
+            <md-input-container class="filtro">
+                <label>Filtrar por fecha</label>
+                <md-select ng-model="vm.fecha" ng-change="vm.listado_ventas()">
+                    <md-optgroup label="Fecha" >
+                        <md-option ng-value="0">Todos</md-option>
+                        <md-option ng-value="1">Enero</md-option>
+                        <md-option ng-value="2">Febrero</md-option>
+                        <md-option ng-value="3">Marzo</md-option>
+                        <md-option ng-value="4">Abril</md-option>
+                        <md-option ng-value="5">Mayo</md-option>
+                        <md-option ng-value="6">Junio</md-option>
+                        <md-option ng-value="7">Julio</md-option>
+                        <md-option ng-value="8">Agosto</md-option>
+                        <md-option ng-value="9">Septiembre</md-option>
+                        <md-option ng-value="10">Octubre</md-option>
+                        <md-option ng-value="11">Noviembre</md-option>
+                        <md-option ng-value="12">Diciembre</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+            <h1>Ventas registradas</h1>
+        </div>
+        <md-table>
+            <md-table-head>
+                <md-table-row class="header">
+                    <md-table-cell>Fecha</md-table-cell>
+                    <md-table-cell>Usuario</md-table-cell>
+                    <md-table-cell>Telefono</md-table-cell>
+                    <md-table-cell class="short-column">Tipo compra</md-table-cell>
+                    <md-table-cell class="short-column">Metodo pago</md-table-cell>
+                    <md-table-cell class="short-column">Descuento</md-table-cell>
+<!--                    <md-table-cell class="short-column">Importe</md-table-cell>-->
+                    <md-table-cell class="short-column">Importe</md-table-cell>
+                    <md-table-cell class="short-column">Detalles</md-table-cell>
+                </md-table-row>
+            </md-table-head>
+            <md-table-data>
+                <md-table-row ng-repeat="venta in vm.ventas">
+                    <md-table-cell>{{venta.created | date:'medium'}}</md-table-cell>
+                    <md-table-cell>
+                        <img ng-src="{{venta.createdBy.url_imagen}}" />
+                        {{venta.createdBy.nombre}}
+                    </md-table-cell>
+                    <md-table-cell>{{venta.telefono}}</md-table-cell>
+                    <md-table-cell class="short-column">{{venta.tipo_compra}}</md-table-cell>
+                    <md-table-cell class="short-column">{{venta.metodo_pago}}</md-table-cell>
+                    <md-table-cell class="short-column">
+                        <span ng-if="venta.descuento">Si</span>
+                        <span ng-if="!venta.descuento">No</span>
+                    </md-table-cell>
+<!--                    <md-table-cell class="short-column">${{venta.costo}}</md-table-cell>-->
+                    <md-table-cell class="short-column">$<span>{{venta.descuento ? venta.costo*0.9 : venta.costo}}</span></md-table-cell>
+                    <md-table-cell class="short-column">
+                        <md-button class="md-icon-button" aria-label="Consultar" ng-click="vm.consultar_venta($event, venta)">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        </md-button>
+                    </md-table-cell>
+                </md-table-row>
+                <md-table-row style="border-top: rgb(192,192,192); border-top-width: 2px; border-top-style: solid;">
+                    <md-table-cell></md-table-cell>
+                    <md-table-cell class="short-column"><b>Ganancia total:</b></md-table-cell>
+                    <md-table-cell class="short-column"><b>${{vm.total}}</b></md-table-cell>
+                    <md-table-cell class="short-column"></md-table-cell>
+                </md-table-row>
+            </md-table-data>
+        </md-table>        
     </div>
     
 </md-content>

@@ -6,14 +6,15 @@
         <md-table>
             <md-table-head>
                 <md-table-row>
+                    <md-table-cell class="short-column">#</md-table-cell>
                     <md-table-cell>Usuario</md-table-cell>
                     <md-table-cell>Fecha de registro</md-table-cell>
                     <md-table-cell class="short-column">Acciones</md-table-cell>
-<!--                    <md-table-cell>Acciones</md-table-cell>-->
                 </md-table-row>
             </md-table-head>
             <md-table-data>
                 <md-table-row ng-repeat="usuario in vm.usuarios">
+                    <md-table-cell class="short-column">{{$index + 1 }}</md-table-cell>
                     <md-table-cell>
                         <img ng-src="{{usuario.url_imagen}}" />
                         {{usuario.nombre}}
@@ -27,61 +28,6 @@
                 </md-table-row>
             </md-table-data>
         </md-table>
-<!--
-        <div layout="row">
-            <md-select ng-model="vm.fecha">
-                <md-optgroup label="items">
-                    <md-option ng-value="item" ng-repeat="item in items">Item {{item}}</md-option>
-                </md-optgroup>
-            </md-select>
-            <div flex="50">
-                <div class="title-header">
-                    <h3>Estadisticas servicios</h3>
-                </div>
-                <md-table>
-                    <md-table-head>
-                        <md-table-row class="header">
-                            <md-table-cell>Servicio</md-table-cell>
-                            <md-table-cell class="short-column">Ventas</md-table-cell>
-                            <md-table-cell class="short-column">Ganancias</md-table-cell>
-                        </md-table-row>
-                    </md-table-head>
-                    <md-table-data>
-                        <md-table-row ng-repeat="servicio in vm.servicios">
-                            <md-table-cell>{{servicio.nombre}}</md-table-cell>
-                            <md-table-cell class="short-column"></md-table-cell>
-                            <md-table-cell class="short-column">Activo</md-table-cell>
-                        </md-table-row>
-                        <md-table-row class="result-row">
-                            <md-table-cell></md-table-cell>
-                            <md-table-cell class="short-column">Total: $</md-table-cell>
-                        </md-table-row>
-                    </md-table-data>
-                </md-table>
-            </div>
-            <div flex="50">
-                <div class="title-header">
-                    <h3>Estadisticas paquetes</h3>
-                </div>
-                <md-table>
-                    <md-table-head>
-                        <md-table-row class="header">
-                            <md-table-cell>Paquete</md-table-cell>
-                            <md-table-cell class="short-column">Ventas</md-table-cell>
-                            <md-table-cell class="short-column">Ganancias</md-table-cell>
-                        </md-table-row>
-                    </md-table-head>
-                    <md-table-data>
-                        <md-table-row>
-                            <md-table-cell>Activo</md-table-cell>
-                            <md-table-cell class="short-column">Activo</md-table-cell>
-                            <md-table-cell class="short-column">Activo</md-table-cell>
-                        </md-table-row>
-                    </md-table-data>
-                </md-table>
-            </div>
-        </div>
--->
     </div>
 </md-content>
 <style>

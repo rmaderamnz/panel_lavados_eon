@@ -1,7 +1,8 @@
-angular.module('panel').controller('DashboardController',['$http', function($http){
+angular.module('panel').controller('DashboardController',['$http','$mdDialog', function($http,$mdDialog){
 //    console.log('Estoy en el controlador del dashboard');
     var vm = this;
     vm.fecha = 0;
+    vm.vista = 1
     
     vm.chartServicios = {
         title: {
@@ -24,12 +25,17 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
         useHighStocks: false,
     }
     
-    vm.estadisticas_servicios = function(){
+    vm.estadisticas = function(){
         var condiciones = {date : vm.fecha};
 //        console.log(condiciones);
         $http.post('/ventas/resumen', {conditions : condiciones } ).success(function(response) {
             console.log(response);
             var categories = {
+                servicios : [],
+                paquetes : [],
+            };
+            
+            var labels = {
                 servicios : [],
                 paquetes : [],
             };
@@ -65,6 +71,9 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
                 },
                 yAxis: {
                     min: 0,
+                },
+                xAxis: {
+                    categories: labels.servicios
                 }
             }
             //Paquetes
@@ -98,6 +107,9 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
                 },
                 yAxis: {
                     min: 0,
+                },
+                xAxis: {
+                    categories: labels.servicios
                 }
             }
             //Pendientes
@@ -105,9 +117,37 @@ angular.module('panel').controller('DashboardController',['$http', function($htt
         });
     }
     
+    vm.confirmar_venta = function(ev, data, ope){
+        console.log(data);
+        var confirm = $mdDialog.confirm();
+        if(ope == 'confirm'){
+            confirm.title('Confirmar pago');
+            confirm.textContent('¿Desea confirmar que el pago fue realizado?');
+        }else{
+            confirm.title('Cancelar venta');
+            confirm.textContent('¿Desea cancelar la venta?');
+        }
+        confirm.ok('Aceptar');
+        confirm.cancel('Cancelar');
+        confirm.targetEvent(ev);
+        confirm.clickOutsideToClose(true);
+        $mdDialog.show(confirm).then(function() {
+            var condiciones = {venta_id : data['_id'], operacion : ope};
+            $http.post('/ventas/confirm', {conditions : condiciones } ).success(function(response) {
+                console.log(response);
+                vm.estadisticas();
+                if(vm.pendientes.length == 1){
+                    vm.vista = 1;
+                }
+            });
+        }, function() {
+            //Cancel
+        });
+    }
+    
     vm.inicializar = function(){
-        console.log('Inicializando!');
-        vm.estadisticas_servicios();
+//        console.log('Inicializando!');
+        vm.estadisticas();
     }
 
 }]);
