@@ -5,7 +5,7 @@ var venta_schema = new Schema({
     antes           :   String,
     despues         :   String,
     costo           :   Number,
-    cometario       :   String,
+    comentario      :   String,
     calificacion    :   String,
     tipo_compra     :   String,
     metodo_pago     :   String,
