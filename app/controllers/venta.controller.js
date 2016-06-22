@@ -329,5 +329,30 @@ exports.update_despues = function(req, res) {
     });
 }
 
+exports.registrar_comentario = function(req, res) {
+    console.log('llego a registro comentario');
+
+    var params = req.body.conditions;
+    console.log(params);
+
+    Venta.findById(params.id, function (err, venta) {
+        if (err) {
+            console.log('error registrar_comentario', err);
+            res.json({ success : false, error : err})
+        }else {
+            venta.comentario = params.comentario;
+            venta.calificacion = params.calificacion;
+            venta.save(function (err) {
+                if (err) {
+                    console.log('error registrar_comentario', err);
+                    res.json({ success : false, error : err})
+                }else {
+                    res.json({ success : true});
+                }
+            });
+        }
+
+    });
+}
 
 
