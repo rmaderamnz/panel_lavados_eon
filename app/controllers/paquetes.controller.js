@@ -56,7 +56,11 @@ exports.update = function(req, res){
     paquete.servicios = param.servicios;
     paquete.precio = param.precio;
     */
-    Paquete.findOneAndUpdate({ _id : id }, { $set: { nombre : name, servicios : serv, precio : price }}, {upsert: true}, function(err, result) {
+    Paquete.findOneAndUpdate(
+        { _id : id }, 
+        { $set: { nombre : name, servicios : serv, precio : price }}, 
+        {upsert: true}, 
+        function(err, result) {
         console.log(result);
         if(err){
             res.send(err);

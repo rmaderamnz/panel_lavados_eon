@@ -344,6 +344,7 @@ exports.get_registros = function(req, res){
         conditions = {created: {$gte: start, $lt: end}};
     }
     conditions.rechazado = {'$eq' : false};
+    conditions.confirmada = {'$eq' : true};
     Venta.find(conditions, function(err, ventas){
         if(err){
             res.json({ success: false });
@@ -410,6 +411,10 @@ exports.update_despues = function(req, res) {
                             if (err) {
                                 res.json({ success : false});
                             }else{
+                                Usuario.findOneAndUpdate(
+                                    {_id : venta.createdBy},{ $set : { descuento : true }},function(err){
+                                    
+                                });
                                 res.json({ success : true});
                             }
                         });

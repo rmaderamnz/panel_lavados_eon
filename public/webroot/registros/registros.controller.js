@@ -34,8 +34,16 @@ angular.module('panel').controller('RegistrosController',['$http','$mdDialog','u
                     $mdDialog.hide();
                 }
                 
-                $scope.map = { center: { latitude : 23.740979865680476,
-                    longitude: -104.95682708808589 }, zoom: 8 };
+                $scope.map = { 
+                    center: { 
+                        latitude : 24.023048,
+                        longitude: -104.6435087 }, 
+                    zoom: 11 };
+                
+                $scope.cordinates = {
+                    latitude : data.direccion.lat,
+                    longitude : data.direccion.lng,
+                }
                 
                 uiGmapGoogleMapApi.then(function (maps){
                     
