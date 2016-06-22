@@ -1,0 +1,53 @@
+<md-dialog>
+    <md-dialog-content>
+        <md-content>
+            <md-input-container class="md-block">
+                <label>Fecha</label>
+                <input ng-model="venta.created" ng-disabled="true" type="text">
+            </md-input-container>
+            <div layout="row" style="padding:32px;">
+                <div flex style="text-align: center;">
+                    <img ng-src="{{venta.antes}}" />
+                    <span>Antes</span>
+                </div>
+                <div flex style="text-align: center;">
+                    <img ng-src="{{venta.despues}}" />
+                    <span>Despues</span>
+                </div>
+            </div>
+            <md-input-container class="md-block" style="float: right;">
+                <span>Calificacion : </span>
+                <span ng-if="venta.calificacion">{{venta.calificacion}}</span>
+                <span ng-if="!venta.calificacion">Sin calificacion</span>
+            </md-input-container>
+            
+            <md-input-container class="md-block">
+                <label>Comentario</label>
+                <textarea ng-model="venta.comentario" md-maxlength="150" rows="5" ng-disabled="true"></textarea>
+            </md-input-container>
+        </md-content> 
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button class="md-raised md-warn" ng-click="cerrar()">Cancelar</md-button>
+        <md-button class="md-raised" ng-click="nuevo_paquete()">Crear</md-button>
+    </md-dialog-actions>
+</md-dialog>
+
+<style>
+    
+    md-dialog > md-dialog-content {
+        width: 640px;
+    }
+    
+    md-content > div > div > img {
+        width: 240px;
+        height: 240px;
+        background-color: rgb(192,192,192);
+        
+    }
+    
+    md-dialog > md-dialog-content > md-content {
+        padding: 16px;
+    }
+
+</style>

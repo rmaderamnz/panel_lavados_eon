@@ -1,4 +1,4 @@
-var servicio_model  = require('./../models/usuarios.model');
+var usuario_model  = require('./../models/usuarios.model');
 var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
 var bodyParser  = require('body-parser');
@@ -16,19 +16,24 @@ exports.authenticate = function(req, res){
     		res.send(err);
     	}else{
 	        if (result.length > 0) {
-                openpay.customers.cards.list(result[0].id_openpay, function(error, list){
-                    console.log(list);
-                    console.log(error);
-                    if(!error){
-                        res.json({ 
+                console.log(result);
+                console.log(result['_id']);
+                
+//                openpay.customers.cards.list(result[0].id_openpay, function(error, list){
+//                    console.log(list);
+//                    console.log(error);
+//                    if(!error){
+                        res.json({
                                 success: true , 
                                 new_user : false,   
                                 customer_id : result[0].id_openpay, 
-                                cards : list});  
-                    }else{
-                        res.send(error);
-                    }
-                });
+//                                cards : list,
+                                user_id : result[0]['_id']
+                        });  
+//                    }else{
+//                        res.send(error);
+//                    }
+//                });
 	        } else {
 	        	var usuario = new_user(req, res ,params);
 	        }
@@ -45,13 +50,10 @@ function new_user(req, res, params) {
 	usuario.url_imagen = params.picture_url;
 	usuario.createdBy = 'Admin';
 	usuario.modifiedBy = 'Admin';
-    console.log('creando cliente');
-//    console.log(usuario);
-    console.log(params.mail);
-    var ext_id = 'EON/'+(new Date()).getTime();
-    console.log(ext_id);
+//    var ext_id = 'EON/'+(new Date()).getTime();
+//    console.log(ext_id);
     openpay.customers.create({
-        external_id : ext_id,
+//        external_id : ext_id,
         name : params.nombre,
         email : params.mail,
         requires_account: true
@@ -59,13 +61,19 @@ function new_user(req, res, params) {
         if(customer){
             console.log(customer.id);
             usuario.id_openpay = customer.id;
-            usuario.save(function(err) {
+            usuario.save(function(err, user) {
                 console.log('Usuario guardado en base de datos');
                 console.log(err);
                 if(err){
                     res.send(err);
                 }else{
-                    res.json({ success: true, new_user : true, customer_id : customer.id, cards : [] });  
+                    res.json({ 
+                        success: true, 
+                        new_user : true, 
+                        customer_id : customer.id, 
+//                        cards : [],
+                        user_id : user['_id']
+                    });  
                 }
             })
         }else{

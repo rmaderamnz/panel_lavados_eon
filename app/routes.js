@@ -38,8 +38,9 @@ module.exports = function(app) {
     
     //VENTAS 
     app.route('/ventas/resumen').post(venta.get_ventas);
-    app.route('/ventas/get_list').post(venta.get_registros);
+    app.route('/ventas/get_list').post(venta.get_registros); 
     app.route('/ventas/charge').post(venta.registrar_venta);
+    app.route('/ventas/confirm').post(venta.confirmar_venta);
     app.route('/ventas/new_card').post(venta.registrar_tarjeta);
     app.route('/ventas/get_cards').post(venta.get_tarjetas);
     app.route('/ventas/remove_card').post(venta.remover_tarjeta);

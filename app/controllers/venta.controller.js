@@ -8,6 +8,8 @@ var venta_model  = require('./../models/venta.model');
 var Venta = mongoose.model('Venta');
 var paquete_model  = require('./../models/paquetes.model');
 var Paquete = mongoose.model('Paquete');
+var usuario_model  = require('./../models/usuarios.model');
+var Usuario = mongoose.model('Usuario');
 
 //Librerias externas
 var Openpay = require('openpay');
@@ -15,29 +17,10 @@ var config = require('./../../config/config');
 var openpay = new Openpay(config.merchant, config.private_key, false);
 var async = require('async');
 
-//get_servicios
-exports.get_servicios = function(req, res) {
-    //Traer listado de usuarios
-    Servicio.find({ activo : {$eq : true} }, function(err, result) {
-//        console.log(result);
-        var data_format = []
-        for(var k in result){
-//            format[k]['_id'] = { 
-//                nombre : result[k].nombre
-//            };
-            data_format.push({'nombre' : result[k].nombre});
-        }
-//        console.log(data_format);
-        res.json({ success: true});
-    })
-    
-}
-
 //OPERACIONES CON TARJETAS
 exports.registrar_tarjeta = function(req, res){
     console.log('Registrando tarjeta');
     var param = req.body.conditions;
-    console.log(param);
     var cliente_id = param.cliente_id;
     var cardRequest = {
         card_number : param.card,
@@ -59,7 +42,7 @@ exports.registrar_tarjeta = function(req, res){
 
 exports.get_tarjetas = function(req, res){
     var param = req.body.conditions;
-    var cliente_id = param.uid;
+    var cliente_id = param.cliente_id;
     openpay.customers.cards.list(cliente_id, function(error, list){
         console.log(error);
         console.log(list);
@@ -82,16 +65,45 @@ exports.remover_tarjeta = function(req, res) {
             res.send(error);
         }
     });
+} 
+
+exports.confirmar_venta = function(req, res){
+    var param = req.body.conditions;
+    var id  = param.venta_id;
+    var operacion = param.operacion;
+    if(operacion == 'confirm'){ 
+        Venta.findOne({ _id : id }, function(err, venta) {
+            console.log(venta);
+            venta.pagado = true;
+            venta.save(function(err){
+                if(err){
+                    res.send(err);
+                }else{
+                    res.json({ success: true });  
+                }
+            });
+        });
+    } else {
+        Venta.findOneAndRemove({ _id : id }, function (err, response){
+            if(err){
+                res.send(err);
+            }else{
+                res.json({ success: true });  
+            }
+        })
+    }
 }
 
 //VENTAS
 exports.registrar_venta = function(req, res) {
     var venta = new Venta();
     var param = req.body.conditions;
+    console.log(param);
     var tipo = param.tipo; //Tarjeta, efectivo
     venta.costo = param.cargo;
     venta.antes = param.antes;
-    venta.createdBy = param.uid;
+    venta.direccion = param.direccion;
+    venta.createdBy = param.user_id;
     venta.tipo_compra = param.tipo_compra;
 //    venta.compra = param.compra;
     if(venta.tipo_compra == 'servicio'){
@@ -100,7 +112,8 @@ exports.registrar_venta = function(req, res) {
         venta.compra.paquetes = param.compra;
     }
     venta.metodo_pago = tipo;
-    if(tipo = 'tarjeta'){
+    console.log(tipo);
+    if(tipo == 'tarjeta'){
         console.log('Pago con tarjeta!');
         var tarjeta = param.tarjeta;
         var cliente_id = param.cliente;
@@ -115,6 +128,7 @@ exports.registrar_venta = function(req, res) {
         openpay.customers.charges.create(cliente_id, chargeRequest, function(error, charge) {
             if(!error){
                 venta.sale_id = charge.id;
+                venta.pagado = true;
                 venta.save(function(err) {
                     if(err){
                         res.json(err);
@@ -139,7 +153,7 @@ exports.registrar_venta = function(req, res) {
                 res.json({ success: true });
             }
         });
-        res.json({ success: true });
+//        res.json({ success: true });
     }
 }
 
@@ -167,7 +181,7 @@ exports.get_ventas = function(req, res){
                 })
             },
             servicios : function(callback){
-                Servicio.find({}, function(err, result) {
+                Servicio.find({ activo : {$eq : true} }, function(err, result) {
                     if(err){
                         return callback(err);
                     }else{
@@ -192,22 +206,29 @@ exports.get_ventas = function(req, res){
                 res.json({ success: false });
             }
             var param = req.body.conditions;
-            console.log(end);
-            var conditions = {}; 
-            console.log(param.date);
+            var conditions = { pagado : {$eq : true} }; 
             if(param.date != '0'){
                 var start = new Date(new Date().getFullYear(), (param.date -1), 1);
                 var end = new Date(new Date().getFullYear(), (param.date -1), 31);
                 conditions = {created: {$gte: start, $lt: end}};
                 console.log(conditions);
             }
+//            console.log(response)
             Venta.find( conditions ,function(err, result){
                 if(err){
                     res.json({ success: false });
                 }else{
+//                    console.log(result);
                     for (var k in result) {
                         var venta = result[k];
-                        for (i = 0; i < venta.compra.length; i++){
+//                        console.log(venta.compra);
+                        var tam = 0;
+                        if(venta.tipo_compra == 'servicio'){
+                            tam = venta.compra.servicios.length;
+                        }else{
+                            tam = venta.compra.paquetes.length;
+                        }
+                        for (i = 0; i < tam; i++){
                             if(venta.tipo_compra == 'servicio'){
                                 response.servicios[venta.compra.servicios[i]].ventas++;
                             }else{
@@ -227,18 +248,19 @@ exports.get_ventas = function(req, res){
 //REGISTROS
 exports.get_registros = function(req, res){
     var param = req.body.conditions;
-    console.log(param);
     var conditions = {}; 
+    console.log(param);
     if(param.date != '0'){
         var start = new Date(new Date().getFullYear(), (param.date -1), 1);
         var end = new Date(new Date().getFullYear(), (param.date -1), 31);
         conditions = {created: {$gte: start, $lt: end}};
     }
-
+ 
     if (param.usuario_id != undefined) {
-        conditions.createdBy = param.usuario_id;
+        conditions.createdBy = {'$eq' : param.usuario_id};
     }
-    Venta.find({},function(err, ventas){
+    console.log(conditions);
+    Venta.find(conditions,function(err, ventas){
         if(err){
             res.json({ success: false });
         }
@@ -261,12 +283,21 @@ exports.get_registros = function(req, res){
                         return callback(err);
                     }
                 })
+            },
+            usuarios : function(callback){
+                Usuario.populate( ventas, {path: 'createdBy', select : 'nombre url_imagen'},function(err, usuarios){
+                    if(!err){
+                        callback(null, usuarios);
+                    }else{
+                        return callback(err);
+                    }
+                })
             }
         }, function(err, response) {
             if(err){
                 res.json({ success: false });
             }else{
-                res.json({ success: false, items : ventas });
+                res.json({ success: true, items : ventas });
             }
         })
 
