@@ -273,5 +273,25 @@ exports.get_registros = function(req, res){
     });
 }
 
+exports.update_despues = function(req, res) {
+    var params = req.body.conditions;
+
+    Venta.findById(params.id, function (err, venta) {
+        if (err) {
+            res.json({ success : false, error : err})
+        }else {
+            venta.despues = params.despues;
+            venta.save(function (err) {
+                if (err) {
+                    res.json({ success : false, error : err})
+                }else {
+                    res.json({ success : true});
+                }
+            });
+        }
+
+    });
+}
+
 
 

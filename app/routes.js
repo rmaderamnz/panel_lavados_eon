@@ -43,6 +43,7 @@ module.exports = function(app) {
     app.route('/ventas/new_card').post(venta.registrar_tarjeta);
     app.route('/ventas/get_cards').post(venta.get_tarjetas);
     app.route('/ventas/remove_card').post(venta.remover_tarjeta);
+    app.route('/ventas/update_despues').post(venta.update_despues);
 
     //IMAGENES
     app.route('/imagenes/verifica_conexion').post(imagenes.verifica_conexion);
